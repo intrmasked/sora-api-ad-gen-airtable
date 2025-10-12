@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - SORA_API_KEY=${SORA_API_KEY}
+      - SORA_API_BASE_URL=${SORA_API_BASE_URL:-https://api.kie.ai/api/v1}
+      - AIRTABLE_API_KEY=${AIRTABLE_API_KEY}
+      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+      - AIRTABLE_TABLE_NAME=${AIRTABLE_TABLE_NAME}
+      - SORA_POLL_INTERVAL=${SORA_POLL_INTERVAL:-5000}
+      - SORA_MAX_WAIT_TIME=${SORA_MAX_WAIT_TIME:-300000}
+    volumes:
+      - ./temp:/usr/src/app/temp
+    restart: unless-stopped
