@@ -8,13 +8,15 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - SORA_API_KEY=${SORA_API_KEY}
-      - SORA_API_BASE_URL=${SORA_API_BASE_URL:-https://api.kie.ai/api/v1}
-      - AIRTABLE_API_KEY=${AIRTABLE_API_KEY}
-      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
-      - AIRTABLE_TABLE_NAME=${AIRTABLE_TABLE_NAME}
-      - SORA_POLL_INTERVAL=${SORA_POLL_INTERVAL:-5000}
-      - SORA_MAX_WAIT_TIME=${SORA_MAX_WAIT_TIME:-300000}
+      - PUBLIC_URL=http://localhost:3000
+      - SORA_API_KEY=d9193249e8c942a1920913766e412d15
+      - SORA_API_BASE_URL=https://api.kie.ai/api/v1
+      - AIRTABLE_API_KEY=patLOBZXzm4w1WU8A.943dbcea35dfa2a87bce9a059962b2dc3e14b1a7d43c4411be7f75243dadfb6f
+      - AIRTABLE_BASE_ID=app2Xf161LbrguqfD/tblv6tvGLHjWYVgaj
+      - AIRTABLE_TABLE_NAME=Video Generation
+      - UPSTASH_REDIS_REST_URL=https://square-katydid-20385.upstash.io
+      - UPSTASH_REDIS_REST_TOKEN=AU-hAAIncDIwNTI5YzFjMzgxMWI0ODU3YWY1YWM0ZTA5ZmI1YjdmMnAyMjAzODU
+      - JOB_TIMEOUT=600000
     volumes:
       - ./temp:/usr/src/app/temp
     restart: unless-stopped
