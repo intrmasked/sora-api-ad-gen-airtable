@@ -37,9 +37,10 @@ STEP 3: SPLIT INTO 2 PARTS (EXACTLY 10 seconds each)
 - Each part must fit in 10 seconds when spoken naturally
 
 STEP 4: CREATE SCENE + VOICEOVER FOR EACH PART
-- Scene: Just CREATOR talking to camera (NO screens, NO demonstrations)
-- Voiceover: Exact words spoken during those 10 seconds
-- Same creator in both parts (consistency)
+- Part 1: Creator hook (2s) + placeholder images (8s)
+- Part 2: All placeholder images (10s) - no creator
+- Explicitly state "10 seconds" for Sora timing
+- Placeholder images = generic visuals related to the tool
 
 UGC SCRIPT FORMAT (ORGANIC & AUTHENTIC):
 - Hook (2-3s): "Okay so I tested like 200 AI tools..." or "These 2 tools literally changed everything..."
@@ -49,31 +50,27 @@ UGC SCRIPT FORMAT (ORGANIC & AUTHENTIC):
 - Authentic tone: Talking to friend, not scripted
 - Benefits focused but casual: "saved me SO much time"
 
-CREATOR FORMAT (NO SCREENS - JUST PERSON):
-- Randomly choose: young woman OR young man
-- Casual clothing (hoodie, t-shirt, casual shirt)
-- Home/casual setting (bedroom, living room, coffee shop)
-- Natural lighting (window light, lamp, outdoor)
-- Talking directly to camera entire time
-- Natural gestures and expressions
-- Text overlay with tool name appears
+CREATOR + PLACEHOLDER FORMAT:
+- Part 1: Creator introduces (2s) then placeholder images
+- Part 2: Only placeholder images (no creator)
+- Randomly choose: young woman OR young man for Part 1 intro
+- Casual clothing, home setting, natural lighting
+- Placeholder images = generic visuals (NOT brand logos or screens)
 
-EACH 10-SECOND SCENE (CREATOR ONLY):
-Part 1 (0-10s):
-- Creator talking to camera, casual setting
-- Text overlay '#2 [TOOL NAME]' appears at top
-- Creator uses hands to gesture while explaining
-- Natural expressions (excited, nodding, smiling)
-- NO screen recordings, NO demonstrations
-- Just authentic person talking
+EACH 10-SECOND SCENE (NEW FORMAT):
+Part 1 (0-10s total, 10 seconds):
+- FIRST 2 SECONDS: Creator looking at camera, text overlay '#2 [TOOL NAME]' appears, starts talking with excitement
+- NEXT 8 SECONDS: Transition to placeholder images/visuals representing Tool #2 (workspace, productivity, generic tech visuals, etc.)
+- Voiceover continues throughout all 10 seconds
+- Duration: 10 seconds
 
-Part 2 (10-20s):
-- SAME creator, SAME setting (consistency!)
-- Text overlay '#1 [TOOL NAME]' appears
-- Creator continues talking, more enthusiasm
-- Natural body language and gestures
-- Maybe leans closer to camera for emphasis
-- NO screens, just creator talking throughout
+Part 2 (10-20s total, 10 seconds):
+- ALL 10 SECONDS: Placeholder images/visuals representing Tool #1
+- NO creator shown in Part 2
+- Text overlay '#1 [TOOL NAME]' appears on images
+- Images change/transition throughout
+- Voiceover continues throughout
+- Duration: 10 seconds
 
 VOICEOVER = EXACT SCRIPT (CRITICAL TIMING):
 - The voiceover IS what creator is saying to camera
@@ -103,27 +100,28 @@ STEP 3 - Split Script (25-30 words each):
 Part 1 (0-10s): "Okay so I tested like 200 AI tools and these 2 are insane. Number 2 is ChatGPT - I use it every day for emails and content." (28 words)
 Part 2 (10-20s): "And number 1 is Midjourney - you type what you want and it creates pro images. People think I hired a designer." (23 words)
 
-STEP 4 - Scene + Voiceover (CREATOR ONLY):
+STEP 4 - Scene + Voiceover (CREATOR HOOK + PLACEHOLDER IMAGES):
 
 Response:
 {
-  "prompt1": "Young woman in gray hoodie sitting in cozy bedroom with plants, natural window light, looking at camera talking enthusiastically, text overlay '#2 CHATGPT' appears in white bold text, she gestures naturally with hands while speaking, nodding and smiling throughout. Casual authentic energy, vertical portrait format, 10 seconds.",
+  "prompt1": "First 2 seconds: Young woman in gray hoodie in cozy bedroom with natural window light, looking at camera with excited expression, text overlay '#2 CHATGPT' appears in white text. Then transitions to: 8 seconds of placeholder images showing hands typing on keyboard, generic laptop workspace, coffee cup next to computer, organized desk setup with notebooks, productivity workspace aesthetic. Natural transitions between images throughout. Vertical portrait format. Duration: 10 seconds.",
 
   "voiceover1": "Okay so I tested like 200 AI tools and these 2 are insane. Number 2 is ChatGPT - I use it every day for emails and content.",
 
-  "prompt2": "Same woman in same gray hoodie and bedroom, same lighting, talking with more excitement, text overlay '#1 MIDJOURNEY' appears in white text, she gestures animatedly while explaining, smiles and nods at end. Same casual energy, vertical format, 10 seconds.",
+  "prompt2": "All 10 seconds: Placeholder images showing creative workspace, abstract colorful art pieces, digital artwork displays, creative tools and supplies, inspiration boards with images, artistic portfolio mockups, modern design aesthetic. Text overlay '#1 MIDJOURNEY' appears on images. Natural transitions between visuals. Vertical portrait format. Duration: 10 seconds.",
 
   "voiceover2": "And number 1 is Midjourney - you type what you want and it creates pro images. People think I hired a designer."
 }
 
 Notice:
-- NO screen recordings, just creator talking entire time
-- Same creator, same setting, consistent throughout
-- Organic language: "literally", "honestly", "like", "so"
-- Natural gestures and expressions described
-- Voiceover matches what creator is saying on camera
-- Specific tools identified (ChatGPT, Midjourney)
-- Text overlays only mention for tool names`;
+- Part 1: 2s creator intro + 8s placeholder images
+- Part 2: 10s all placeholder images (no creator)
+- Placeholder images relate to tool being discussed
+- NO brand logos or UI screens - generic visuals only
+- Text overlays appear on images
+- "Duration: 10 seconds" explicitly stated for Sora
+- Organic voiceover throughout
+- Specific tools identified (ChatGPT, Midjourney)`;
   }
 
   /**
@@ -164,28 +162,37 @@ STEP 3: Split naturally (CRITICAL TIMING!)
 - Each MUST fit in 10 seconds or it gets cut off!
 - Count your words - do NOT exceed 30 words per part
 
-STEP 4: Create SIMPLE CREATOR-ONLY scenes
-- Just person talking to camera entire time
-- Same creator, same setting in both parts
-- Keep scene descriptions SHORT and simple
-- Text overlays with tool names
-- NO screen recordings, NO demonstrations
-- NO complex timing breakdowns (0-2s, 3-5s, etc.)
-- Just describe: person, setting, general energy
+STEP 4: Create CREATOR INTRO + PLACEHOLDER IMAGE scenes
+
+Part 1 Format:
+- First 2 seconds: Creator looking at camera with excitement, text overlay '#2 [TOOL]' appears
+- Then 8 seconds: Placeholder images representing the tool (workspace, productivity, etc.)
+- Describe what placeholder images show (hands typing, desk setup, etc.)
+- Natural transitions between images
+- NO brand logos or UI screens - generic visuals only
+- MUST state "Duration: 10 seconds" at end
+
+Part 2 Format:
+- ALL 10 seconds: Placeholder images only (no creator)
+- Text overlay '#1 [TOOL]' appears on images
+- Describe generic visuals related to Tool #1
+- Multiple image ideas that transition naturally
+- NO brand logos or screens
+- MUST state "Duration: 10 seconds" at end
 
 CRITICAL CONSTRAINTS:
-- Voiceover MAX 30 words per part (will get cut if longer)
-- Scene descriptions: simple and brief
-- NO screens or demonstrations
-- Same person/setting throughout
-- Keep it natural and authentic
+- Voiceover MAX 30 words per part
+- Explicitly state "Duration: 10 seconds" in each prompt
+- Part 1: "First 2 seconds: [creator intro]. Then transitions to: [8 seconds of placeholder images]. Duration: 10 seconds."
+- Part 2: "All 10 seconds: [placeholder images]. Duration: 10 seconds."
+- Placeholder images must be generic (no logos)
 
 RETURN:
 {
-  "prompt1": "Simple description: creator in setting, talking to camera, text overlay appears, natural gestures. 10 seconds.",
-  "voiceover1": "25-30 words max for Part 1",
-  "prompt2": "Same creator, same setting, more enthusiasm, text overlay, gestures. 10 seconds.",
-  "voiceover2": "25-30 words max for Part 2"
+  "prompt1": "First 2 seconds: [creator intro]. Then transitions to: [8s of placeholder images describing visuals]. Duration: 10 seconds.",
+  "voiceover1": "25-30 words max",
+  "prompt2": "All 10 seconds: [placeholder images describing visuals]. Duration: 10 seconds.",
+  "voiceover2": "25-30 words max"
 }`;
 
       // Call OpenAI API
