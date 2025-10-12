@@ -28,58 +28,69 @@ CRITICAL: 20-SECOND SHORT-FORM CONTENT (10 SECONDS PER VIDEO)
    - Keep it punchy, dynamic, high-energy
    - Every second must be valuable - no filler
 
-2. SHOW REAL, SPECIFIC ITEMS:
-   - Prompt 1 = Item #3 or #2 from the list (name the ACTUAL tool/app/thing)
-   - Prompt 2 = Item #2 or #1 from the list (name the ACTUAL tool/app/thing)
-   - Example: If "Top 3 AI Tools" → Prompt 1 shows ChatGPT, Prompt 2 shows Midjourney
-   - Show real product interfaces, app screens, actual tools being used
+2. SORA COMPLIANCE (CRITICAL - NO BRAND VIOLATIONS):
+   - DO NOT show real brand logos (no ChatGPT logo, no Midjourney logo, etc.)
+   - DO NOT show specific copyrighted UI designs
+   - USE generic interfaces: "AI chat interface" not "ChatGPT interface"
+   - USE generic devices: "smartphone screen" not "iPhone with ChatGPT"
+   - TEXT OVERLAYS can mention tool names (Sora can generate text)
+   - FOCUS on the action/concept, not the branded product
+   - Example: Show "person typing into AI chatbot on phone" + text overlay "#3 CHATGPT"
+
+3. SHOW REAL, SPECIFIC ITEMS (via text overlays, not logos):
+   - Prompt 1 = Item #3 or #2 from the list (name in TEXT OVERLAY only)
+   - Prompt 2 = Item #2 or #1 from the list (name in TEXT OVERLAY only)
+   - Example: If "Top 3 AI Tools" → Generic AI interfaces + text overlays with names
+   - Show generic tools being used (no branded UIs)
    - Include text overlays with item numbers and names
 
-3. TIKTOK/SHORTS VISUAL STYLE:
+4. TIKTOK/SHORTS VISUAL STYLE:
    - Attention-grabbing opening (close-ups, dramatic reveals)
-   - Phone screen captures, computer monitors, app interfaces
-   - Clean, modern, high-quality smartphone aesthetic
-   - Text overlays are VISIBLE and PROMINENT
+   - Generic phone/computer screens (no brand-specific devices)
+   - Clean, modern, high-quality aesthetic
+   - Text overlays are VISIBLE and PROMINENT (Sora can generate text)
    - Stop-the-scroll visual hooks
    - Short-form vertical or horizontal framing
    - Quick transitions between elements
 
-4. VISUAL CONSISTENCY (MUST MATCH):
+5. VISUAL CONSISTENCY (MUST MATCH):
    - Same color grading (neon blues/purples or warm/bright)
    - Same lighting setup (screen glow, ring light, dramatic)
    - Same camera style (POV, over-shoulder, screen focus)
    - Same mood/energy level
    - Same text overlay style
 
-5. EACH 10-SECOND PROMPT STRUCTURE:
+6. EACH 10-SECOND PROMPT STRUCTURE:
    - FAST OPENING: Immediate hook (0-2 sec)
-   - SHOW THE TOOL: Quick reveal of product/app interface (2-4 sec)
-   - TEXT OVERLAY: Bold text with item number (e.g., "#3 CHATGPT - INSTANT ESSAYS")
-   - ACTION: Rapid demonstration of tool in use (4-7 sec)
+   - SHOW THE CONCEPT: Quick reveal of generic interface (2-4 sec)
+   - TEXT OVERLAY: Bold text with item number and name (e.g., "#3 CHATGPT - INSTANT ESSAYS")
+   - ACTION: Rapid demonstration of concept in use (4-7 sec)
    - RESULT: Quick payoff/wow moment (7-10 sec)
-   - Device showing it (iPhone, MacBook, monitor)
+   - Generic devices (smartphone, laptop, computer screen - no specific brands)
    - Hands/user interaction visible
    - Screen glow lighting for dramatic effect
 
-6. CONTENT TYPES BY CATEGORY:
+7. CONTENT TYPES BY CATEGORY:
 
    AI TOOLS/APPS (10-second rapid demo):
-   - Immediate tool interface reveal
-   - Tool's real name visible on screen
+   - Generic AI interface reveal (NO branded UI)
+   - Tool name in TEXT OVERLAY only
    - Fast demonstration with instant results
-   - Example: "ChatGPT types 500-word essay in 8 seconds"
+   - Example: "Generic AI chat interface typing essay" + overlay "#3 CHATGPT"
 
    PREDICTIONS/FACTS (10-second quick story):
    - Fast visual representation
    - Quick cut to proof/evidence
    - Text overlay with key info
    - Dramatic reveal at end
+   - No copyrighted news footage
 
    PRODUCTS/ITEMS (10-second showcase):
-   - Quick product reveal
+   - Quick generic product reveal
    - Rapid feature demonstration
    - Immediate benefit/result shown
    - Fast, energetic pacing
+   - Avoid showing brand logos
 
 RESPONSE FORMAT (JSON):
 {
@@ -87,16 +98,16 @@ RESPONSE FORMAT (JSON):
   "prompt2": "Specific detailed prompt for item #2 or #1..."
 }
 
-EXAMPLE:
+EXAMPLE (SORA-COMPLIANT):
 Master Prompt: "Top 3 AI Tools That Feel Illegal"
 
 Response:
 {
-  "prompt1": "10-second fast-paced shot: iPhone screen showing ChatGPT app, immediate close-up on interface (0-2s), bold text overlay '#3 CHATGPT - INSTANT ESSAYS' appears (2s), rapid typing animation as 500-word college essay generates in seconds (2-7s), finger frantically scrolling through perfect paragraphs (7-9s), quick zoom on completed essay with amazed user reaction visible in background (9-10s). Dark room, bright screen glow, neon blue UI, dramatic lighting, high-energy smartphone aesthetic, professional quality",
-  "prompt2": "10-second dynamic shot: MacBook screen with Midjourney Discord interface, quick reveal of '/imagine' command being typed (0-2s), text overlay '#2 MIDJOURNEY - PRO ART IN 30 SEC' flashes on (2s), rapid progress bar filling as AI generates photorealistic image (2-6s), dramatic reveal of stunning artwork materializing on screen (6-8s), hand pointing excitedly at final masterpiece (8-10s). Same dark room, identical screen glow lighting, matching neon blue color scheme, same fast-paced energy, professional tech aesthetic"
+  "prompt1": "10-second fast-paced shot: Smartphone screen showing generic AI chatbot interface with blue and purple gradient design, immediate close-up on screen (0-2s), bold text overlay '#3 CHATGPT - INSTANT ESSAYS' appears in corner (2s), fingers rapidly typing 'write college essay about history' as text generates automatically on screen in real-time (2-7s), finger frantically scrolling through walls of perfect paragraphs appearing (7-9s), quick zoom showing amazed person's face in background lit by screen glow (9-10s). Dark room, bright screen glow casting blue light, dramatic lighting, high-energy vertical format, professional quality",
+  "prompt2": "10-second dynamic shot: Laptop screen displaying generic AI image generator with sleek dark interface, quick close-up of hands typing text prompt 'astronaut riding horse on mars' (0-2s), text overlay '#2 AI IMAGE TOOL - INSTANT ART' flashes prominently (2s), rapid progress animation as photorealistic image materializes on screen tile by tile (2-6s), dramatic full reveal of stunning artwork appearing on display (6-8s), hand pointing excitedly at final masterpiece while user reacts with amazement (8-10s). Same dark room setup, identical blue screen glow lighting, matching color scheme, same fast-paced energy, professional aesthetic"
 }
 
-Notice: Both are 10 seconds, show REAL tools, same visual style, fast-paced, text overlays, identical lighting/mood.`;
+Notice: NO brand logos, NO specific UIs (ChatGPT/Midjourney logos removed), generic interfaces only, tool names in TEXT OVERLAYS, same visual style, Sora-compliant.`;
   }
 
   /**
@@ -114,7 +125,7 @@ Notice: Both are 10 seconds, show REAL tools, same visual style, fast-paced, tex
     try {
       // Add aspect ratio guidance to the user message
       const aspectRatioGuidance = this.getAspectRatioGuidance(aspectRatio);
-      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nIMPORTANT: Generate TWO 10-SECOND video prompts (20 seconds total when stitched). Each prompt must be FAST-PACED, showing SPECIFIC REAL items from the list with viral TikTok/Shorts energy. Include:\n- Actual product/tool names\n- Bold text overlays with item numbers\n- Quick, attention-grabbing demonstrations\n- Identical visual style, lighting, and mood between both prompts\n- High-energy, no filler, every second counts!`;
+      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nIMPORTANT: Generate TWO 10-SECOND video prompts (20 seconds total when stitched). Each prompt must be FAST-PACED with viral TikTok/Shorts energy.\n\nSORA COMPLIANCE (CRITICAL):\n- NO brand logos or trademarks visible\n- NO specific copyrighted UI designs (use "generic AI interface" not "ChatGPT interface")\n- Tool names ONLY in text overlays\n- Generic devices (smartphone, laptop) not specific brands\n\nMUST INCLUDE:\n- Bold text overlays with item numbers and tool names\n- Quick, attention-grabbing demonstrations\n- Identical visual style, lighting, and mood between both prompts\n- High-energy, no filler, every second counts!`;
 
       // Call OpenAI API
       const response = await this.openai.chat.completions.create({
