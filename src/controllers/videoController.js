@@ -282,20 +282,22 @@ class VideoController {
     try {
       Logger.info('Generating prompts from master prompt', { masterPrompt, aspectRatio });
 
-      // Generate prompts using the prompt generation service
-      const { prompt1, prompt2 } = await promptGenerationService.generatePrompts(
+      // Generate prompts and voiceovers using the prompt generation service
+      const { prompt1, voiceover1, prompt2, voiceover2 } = await promptGenerationService.generatePrompts(
         masterPrompt,
         aspectRatio
       );
 
-      Logger.info('Prompts generated successfully', { prompt1, prompt2 });
+      Logger.info('Prompts and voiceovers generated successfully', { prompt1, prompt2, voiceover1, voiceover2 });
 
       return res.status(200).json({
         success: true,
         data: {
           masterPrompt,
           prompt1,
+          voiceover1,
           prompt2,
+          voiceover2,
           aspectRatio,
         },
       });
@@ -327,22 +329,24 @@ class VideoController {
     try {
       Logger.info('Processing master prompt', { recordId, masterPrompt, aspectRatio });
 
-      // Generate Prompt 1 and Prompt 2 from Master Prompt
-      const { prompt1, prompt2 } = await promptGenerationService.generatePrompts(
+      // Generate Prompt 1, Prompt 2, and Voiceovers from Master Prompt
+      const { prompt1, voiceover1, prompt2, voiceover2 } = await promptGenerationService.generatePrompts(
         masterPrompt,
         aspectRatio
       );
 
-      Logger.info('Prompts generated from master', { prompt1, prompt2 });
+      Logger.info('Prompts and voiceovers generated from master', { prompt1, prompt2, voiceover1, voiceover2 });
 
-      // Update Airtable record with generated prompts if recordId provided
+      // Update Airtable record with generated prompts and voiceovers if recordId provided
       if (recordId) {
         const airtableService = require('../services/airtableService');
         await airtableService.base(airtableService.tableName).update(recordId, {
           'Prompt 1': prompt1,
           'Prompt 2': prompt2,
+          'Voiceover 1': voiceover1,
+          'Voiceover 2': voiceover2,
         });
-        Logger.info('Updated Airtable record with generated prompts', { recordId });
+        Logger.info('Updated Airtable record with generated prompts and voiceovers', { recordId });
       }
 
       // Now use the generated prompts to create videos

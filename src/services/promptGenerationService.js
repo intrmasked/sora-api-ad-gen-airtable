@@ -60,17 +60,23 @@ CRITICAL: 20-SECOND SHORT-FORM CONTENT (10 SECONDS PER VIDEO)
    - Same mood/energy level
    - Same text overlay style
 
-6. EACH 10-SECOND PROMPT STRUCTURE:
-   - FAST OPENING: Immediate hook (0-2 sec)
-   - SHOW THE CONCEPT: Quick reveal of generic interface (2-4 sec)
-   - TEXT OVERLAY: Bold text with item number and name (e.g., "#3 CHATGPT - INSTANT ESSAYS")
-   - ACTION: Rapid demonstration of concept in use (4-7 sec)
-   - RESULT: Quick payoff/wow moment (7-10 sec)
-   - Generic devices (smartphone, laptop, computer screen - no specific brands)
-   - Hands/user interaction visible
-   - Screen glow lighting for dramatic effect
+6. EACH 10-SECOND PROMPT STRUCTURE (HUMAN → SCREEN):
+   - HUMAN HOOK (0-3s): Person looking at camera, text overlay appears with item number/name
+   - TRANSITION (3s): Quick cut/zoom to screen
+   - SCREEN DEMO (3-7s): Generic interface showing tool in action
+   - RESULT/PAYOFF (7-10s): Wow moment, results visible on screen
+   - Text overlay stays visible throughout
+   - Voiceover explains throughout (generated separately)
 
-7. CONTENT TYPES BY CATEGORY:
+7. VOICEOVER SCRIPT REQUIREMENTS:
+   - 2-3 sentences max (fits in 10 seconds)
+   - Conversational, energetic tone
+   - Explain what the tool does and why it's impressive
+   - Include specific benefit or use case
+   - Make it sound natural (like you're talking to a friend)
+   - Example: "Number 3 is an AI that writes entire essays in seconds. I tested it with a 10-page research paper and it was better than what I could write in hours. Game changer for anyone in school or creating content."
+
+8. CONTENT TYPES BY CATEGORY:
 
    AI TOOLS/APPS (10-second rapid demo):
    - Generic AI interface reveal (NO branded UI)
@@ -92,22 +98,29 @@ CRITICAL: 20-SECOND SHORT-FORM CONTENT (10 SECONDS PER VIDEO)
    - Fast, energetic pacing
    - Avoid showing brand logos
 
-RESPONSE FORMAT (JSON):
+RESPONSE FORMAT (JSON WITH VOICEOVER):
 {
-  "prompt1": "Specific detailed prompt for item #3 or #2...",
-  "prompt2": "Specific detailed prompt for item #2 or #1..."
+  "prompt1": "Visual description starting with person, transitioning to screen...",
+  "voiceover1": "Voiceover script explaining the tool (what AI thinks is worth mentioning)...",
+  "prompt2": "Visual description starting with person, transitioning to screen...",
+  "voiceover2": "Voiceover script explaining the tool (what AI thinks is worth mentioning)..."
 }
 
-EXAMPLE (SORA-COMPLIANT):
-Master Prompt: "Top 3 AI Tools That Feel Illegal"
+EXAMPLE (SORA-COMPLIANT WITH HUMAN HOOK + VOICEOVER):
+Master Prompt: "Top 3 AI Tools 10x Productivity"
 
 Response:
 {
-  "prompt1": "10-second fast-paced shot: Smartphone screen showing generic AI chatbot interface with blue and purple gradient design, immediate close-up on screen (0-2s), bold text overlay '#3 CHATGPT - INSTANT ESSAYS' appears in corner (2s), fingers rapidly typing 'write college essay about history' as text generates automatically on screen in real-time (2-7s), finger frantically scrolling through walls of perfect paragraphs appearing (7-9s), quick zoom showing amazed person's face in background lit by screen glow (9-10s). Dark room, bright screen glow casting blue light, dramatic lighting, high-energy vertical format, professional quality",
-  "prompt2": "10-second dynamic shot: Laptop screen displaying generic AI image generator with sleek dark interface, quick close-up of hands typing text prompt 'astronaut riding horse on mars' (0-2s), text overlay '#2 AI IMAGE TOOL - INSTANT ART' flashes prominently (2s), rapid progress animation as photorealistic image materializes on screen tile by tile (2-6s), dramatic full reveal of stunning artwork appearing on display (6-8s), hand pointing excitedly at final masterpiece while user reacts with amazement (8-10s). Same dark room setup, identical blue screen glow lighting, matching color scheme, same fast-paced energy, professional aesthetic"
+  "prompt1": "10-second video: Young person in casual clothing looking directly at camera in well-lit room, confident expression (0-2s), bold text overlay '#3 AI WRITING TOOL' appears at top (1s), person nods and gestures toward side (2-3s), quick transition zoom to smartphone screen in hand (3s), screen shows generic AI chat interface with blue gradient typing out full essay automatically (3-7s), text rapidly filling screen as person's hand scrolls through paragraphs (7-9s), cut back to person looking amazed with eyebrows raised (9-10s). Bright natural lighting, modern casual aesthetic, vertical portrait format",
+
+  "voiceover1": "Number 3 completely changed how I work. This AI writes full essays, emails, even code in seconds. I gave it a topic and it created a 5-page report that would've taken me hours. If you're a student or creator, this will 10x your output instantly.",
+
+  "prompt2": "10-second video: Same person in same room looking at camera with excited expression (0-2s), text overlay '#1 AI IMAGE CREATOR' appears (1s), person gestures excitedly toward screen (2-3s), fast transition to laptop screen (3s), shows generic AI art interface with dark sleek design, text prompt being typed 'futuristic city at sunset' (3-5s), stunning photorealistic image materializing tile by tile on screen (5-8s), person's hand pointing at finished masterpiece, cut to person's amazed reaction (8-10s). Same bright lighting, matching aesthetic, same energy level",
+
+  "voiceover2": "And number 1 is absolutely insane. This AI generates professional-quality images from text in under 30 seconds. I've used it for presentations, social media, everything. The quality is so good people think I hired a designer. This alone is worth trying."
 }
 
-Notice: NO brand logos, NO specific UIs (ChatGPT/Midjourney logos removed), generic interfaces only, tool names in TEXT OVERLAYS, same visual style, Sora-compliant.`;
+Notice: Human hook → screen demo format, voiceover scripts included, NO brand logos, generic interfaces, Sora-compliant, conversational voiceovers.`;
   }
 
   /**
@@ -125,7 +138,7 @@ Notice: NO brand logos, NO specific UIs (ChatGPT/Midjourney logos removed), gene
     try {
       // Add aspect ratio guidance to the user message
       const aspectRatioGuidance = this.getAspectRatioGuidance(aspectRatio);
-      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nIMPORTANT: Generate TWO 10-SECOND video prompts (20 seconds total when stitched). Each prompt must be FAST-PACED with viral TikTok/Shorts energy.\n\nSORA COMPLIANCE (CRITICAL):\n- NO brand logos or trademarks visible\n- NO specific copyrighted UI designs (use "generic AI interface" not "ChatGPT interface")\n- Tool names ONLY in text overlays\n- Generic devices (smartphone, laptop) not specific brands\n\nMUST INCLUDE:\n- Bold text overlays with item numbers and tool names\n- Quick, attention-grabbing demonstrations\n- Identical visual style, lighting, and mood between both prompts\n- High-energy, no filler, every second counts!`;
+      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nIMPORTANT: Generate TWO 10-SECOND video prompts (20 seconds total) with VOICEOVER SCRIPTS.\n\nVIDEO STRUCTURE (HUMAN → SCREEN):\n- Start with PERSON looking at camera (0-3s) - the hook\n- Text overlay appears with item number/name\n- Quick transition to SCREEN showing the tool (3-10s)\n- Person can appear again at end for reaction\n\nVOICEOVER:\n- Generate natural, conversational script (2-3 sentences)\n- Explain what the tool does and why it's impressive\n- Use personal experience tone ("I tested this...")\n- Fits in 10 seconds when spoken\n\nSORA COMPLIANCE (CRITICAL):\n- NO brand logos or trademarks visible\n- NO specific copyrighted UI designs (use "generic AI interface")\n- Tool names ONLY in text overlays\n- Generic devices (smartphone, laptop) not specific brands\n\nMUST RETURN:\n- prompt1, voiceover1, prompt2, voiceover2\n- Same person/setting for visual consistency\n- High-energy TikTok style!`;
 
       // Call OpenAI API
       const response = await this.openai.chat.completions.create({
@@ -153,14 +166,22 @@ Notice: NO brand logos, NO specific UIs (ChatGPT/Midjourney logos removed), gene
         throw new Error('OpenAI response missing prompt1 or prompt2');
       }
 
-      Logger.info('Prompts generated successfully via OpenAI', {
+      if (!parsedResponse.voiceover1 || !parsedResponse.voiceover2) {
+        throw new Error('OpenAI response missing voiceover1 or voiceover2');
+      }
+
+      Logger.info('Prompts and voiceovers generated successfully via OpenAI', {
         prompt1Length: parsedResponse.prompt1.length,
         prompt2Length: parsedResponse.prompt2.length,
+        voiceover1Length: parsedResponse.voiceover1.length,
+        voiceover2Length: parsedResponse.voiceover2.length,
       });
 
       return {
         prompt1: parsedResponse.prompt1,
+        voiceover1: parsedResponse.voiceover1,
         prompt2: parsedResponse.prompt2,
+        voiceover2: parsedResponse.voiceover2,
       };
     } catch (error) {
       Logger.error('Error generating prompts with OpenAI', error);
