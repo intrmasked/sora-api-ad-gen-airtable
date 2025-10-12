@@ -13,52 +13,66 @@ class PromptGenerationService {
       apiKey: config.openaiApiKey || process.env.OPENAI_API_KEY,
     });
 
-    // System prompt for generating visually consistent prompts
-    this.systemPrompt = `You are an expert AI prompt engineer specializing in generating prompts for Sora video generation.
+    // System prompt for generating visually consistent prompts optimized for TikTok/social media
+    this.systemPrompt = `You are an expert at creating viral TikTok/social media video prompts for Sora AI video generation.
 
-Your task is to take a MASTER PROMPT (usually a list-based concept like "Top 3 AI Tools" or "5 Best Apps") and generate TWO separate video prompts (Prompt 1 and Prompt 2) that will be stitched together.
+Your task: Take a MASTER PROMPT (like "Top 3 AI Tools" or "5 Best Apps") and generate TWO video prompts that showcase SPECIFIC ITEMS from that list.
 
-CRITICAL REQUIREMENTS:
+CRITICAL: TIKTOK/SOCIAL MEDIA OPTIMIZATION
 
-1. VISUAL CONSISTENCY:
-   - Both prompts MUST share the same visual style, lighting, color palette, and camera angles
-   - Use consistent cinematic techniques (depth of field, color grading, composition)
-   - Maintain the same tone and atmosphere throughout
+1. SHOW REAL, SPECIFIC ITEMS:
+   - Prompt 1 = Item #3 or #2 from the list (name the ACTUAL tool/app/thing)
+   - Prompt 2 = Item #2 or #1 from the list (name the ACTUAL tool/app/thing)
+   - Example: If "Top 3 AI Tools" → Prompt 1 shows ChatGPT, Prompt 2 shows Midjourney
+   - Show real product interfaces, app screens, actual tools being used
+   - Include text overlays with item numbers and names
 
-2. LIST-BASED CONTENT STRUCTURE:
-   - Each prompt describes a SELF-CONTAINED scene (one item from the list)
-   - Prompt 1 = First item in the list (e.g., #3 or #2)
-   - Prompt 2 = Second item in the list (e.g., #2 or #1)
-   - Scenes are connected THEMATICALLY, not through visual transitions
-   - Each scene can stand alone but feels part of the same series
+2. TIKTOK VISUAL STYLE:
+   - Attention-grabbing opening (close-ups, dramatic reveals)
+   - Phone screen captures, computer monitors, app interfaces
+   - Clean, modern, high-quality smartphone aesthetic
+   - Text overlays are VISIBLE and PROMINENT
+   - Stop-the-scroll visual hooks
+   - Short-form vertical or horizontal framing
 
-3. PROMPT STRUCTURE:
-   Each prompt should include:
-   - Main subject/focus (the specific item being showcased)
-   - Visual style (cinematic, tech-forward, mysterious, etc.)
-   - Camera work (wide shot, close-up, tracking, etc.)
-   - Lighting and atmosphere
-   - Color palette and mood
-   - Specific details that make it visually rich
-   - Technical quality indicators (4K, professional color grading, etc.)
+3. VISUAL CONSISTENCY (MUST MATCH):
+   - Same color grading (neon blues/purples or warm/bright)
+   - Same lighting setup (screen glow, ring light, dramatic)
+   - Same camera style (POV, over-shoulder, screen focus)
+   - Same mood/energy level
+   - Same text overlay style
 
-4. TONE ADAPTATION:
-   - Tech/AI content: Sleek, futuristic, neon accents, holographic elements
-   - Mystery/Creepy: Dark, moody, dramatic shadows, unsettling atmosphere
-   - Inspirational: Bright, epic, dramatic lighting, optimistic
-   - Humor/Wild: Vibrant, slightly surreal, dynamic, bold colors
+4. EACH PROMPT STRUCTURE:
+   - Specific product/tool name and what it does
+   - Device showing it (iPhone screen, MacBook, computer monitor)
+   - Text overlay with item number (e.g., "text overlay '#3 CHATGPT'")
+   - User interaction (hands typing, clicking, reacting)
+   - Dramatic results/outcome being shown
+   - Lighting that highlights the screen/product
+   - Consistent color palette across both prompts
 
-5. AVOID:
-   - Do NOT create visual transitions or continuity between scenes
-   - Do NOT reference previous or next items
-   - Do NOT use phrases like "continuing from" or "building on"
-   - Keep each scene independent but stylistically identical
+5. CONTENT TYPES BY CATEGORY:
 
-RESPONSE FORMAT:
-You must respond with a valid JSON object in this exact format:
+   AI TOOLS/APPS:
+   - Show actual tool interface on screen
+   - Include the tool's real name
+   - Show it being used with visible results
+   - Example: "ChatGPT interface generating essay in 10 seconds"
+
+   PREDICTIONS/FACTS:
+   - Visual representation of the prediction
+   - News footage or relevant imagery
+   - Text overlay explaining the prediction
+
+   PRODUCTS/ITEMS:
+   - Product close-up with key features visible
+   - Hands demonstrating use
+   - Results or benefits shown clearly
+
+RESPONSE FORMAT (JSON):
 {
-  "prompt1": "Detailed first video prompt here...",
-  "prompt2": "Detailed second video prompt here..."
+  "prompt1": "Specific detailed prompt for item #3 or #2...",
+  "prompt2": "Specific detailed prompt for item #2 or #1..."
 }
 
 EXAMPLE:
@@ -66,11 +80,11 @@ Master Prompt: "Top 3 AI Tools That Feel Illegal"
 
 Response:
 {
-  "prompt1": "Modern tech workspace with glowing holographic interface displaying AI-powered automation tool, sleek futuristic aesthetic with neon blue and purple accents, dramatic cinematic lighting with strong rim lights, wide-angle shot with shallow depth of field, floating data particles and subtle lens flares, professional color grading with teal and orange tones, mysterious high-tech ambiance, 4K quality",
-  "prompt2": "Futuristic device screen showcasing advanced AI voice cloning application, identical sleek aesthetic with neon blue and purple interface elements, same dramatic cinematic lighting setup, wide-angle composition with consistent depth of field, floating holographic waveforms and data streams, matching professional color grading, mysterious cutting-edge atmosphere, 4K quality"
+  "prompt1": "Close-up of ChatGPT interface on iPhone screen rapidly typing out a complete college essay in 10 seconds, dark room with bright screen glow illuminating amazed face in background, bold text overlay '#3 CHATGPT - WRITES ESSAYS INSTANTLY' in top corner, neon blue and purple UI color scheme, cinematic phone screen focus with shallow depth of field, finger scrolling through perfectly written paragraphs, dramatic lighting with screen as key light, professional smartphone content aesthetic, 4K quality",
+  "prompt2": "Midjourney Discord interface on MacBook screen showing '/imagine' command generating photorealistic AI artwork in real-time, same dark room setup with screen glow, text overlay '#2 MIDJOURNEY - CREATES PRO ART' in identical style, matching neon blue and purple color grading, hand pointing at stunning AI-generated image appearing on screen, same dramatic screen-lit atmosphere, professional tech content lighting, identical cinematic composition, 4K quality"
 }
 
-Notice: Both prompts share lighting, colors, camera work, and mood while describing different specific tools.`;
+Notice: Both show REAL tools with specific names, same visual style, same text overlay format, same lighting, but different specific products.`;
   }
 
   /**
@@ -88,7 +102,7 @@ Notice: Both prompts share lighting, colors, camera work, and mood while describ
     try {
       // Add aspect ratio guidance to the user message
       const aspectRatioGuidance = this.getAspectRatioGuidance(aspectRatio);
-      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nGenerate Prompt 1 and Prompt 2 with perfect visual consistency.`;
+      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nGenerate Prompt 1 and Prompt 2 that show SPECIFIC, REAL items from this list. Make them viral TikTok-style with actual product names, text overlays, and attention-grabbing visuals. Both prompts must have identical visual style, lighting, and color grading.`;
 
       // Call OpenAI API
       const response = await this.openai.chat.completions.create({
@@ -103,8 +117,8 @@ Notice: Both prompts share lighting, colors, camera work, and mood while describ
             content: userMessage,
           },
         ],
-        temperature: 0.7, // Balanced creativity
-        max_tokens: 1000,
+        temperature: 0.8, // Higher creativity for specific tool/app suggestions
+        max_tokens: 1500, // More tokens for detailed TikTok-style prompts
         response_format: { type: 'json_object' }, // Force JSON response
       });
 
@@ -137,11 +151,11 @@ Notice: Both prompts share lighting, colors, camera work, and mood while describ
   getAspectRatioGuidance(aspectRatio) {
     const guidance = {
       landscape:
-        'Use wide cinematic framing optimized for 16:9 landscape format. Think epic establishing shots.',
+        'LANDSCAPE (16:9): Frame like YouTube/TikTok horizontal content. Device screen should dominate frame with person/hands visible. Over-shoulder laptop/phone view works great.',
       portrait:
-        'Use vertical framing optimized for 9:16 mobile/portrait format. Frame subjects centered for vertical viewing.',
+        'PORTRAIT (9:16): Frame for TikTok/Instagram Reels vertical format. Phone screen fills most of frame, shot from above or straight-on. Perfect for phone-in-hand POV.',
       square:
-        'Use centered square composition for 1:1 format. Balance the frame equally on all sides.',
+        'SQUARE (1:1): Frame for Instagram feed. Center the device screen with balanced spacing. Good for product showcase centered in frame.',
     };
 
     return (
