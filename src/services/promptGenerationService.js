@@ -29,10 +29,12 @@ STEP 2: WRITE FULL 20-SECOND SCRIPT (UGC Format)
 - Include: Hook + Tool #2 explanation + Tool #1 explanation
 - Authentic enthusiasm (not salesy)
 - Specific examples and benefits
+- TOTAL: 50-60 words max (fits 20 seconds comfortably)
 
-STEP 3: SPLIT INTO 2 PARTS (10 seconds each)
-- Part 1 (0-10s): Hook + introduce yourself + Tool #2
-- Part 2 (10-20s): Tool #1 + why it's #1
+STEP 3: SPLIT INTO 2 PARTS (EXACTLY 10 seconds each)
+- Part 1 (0-10s): Hook + Tool #2 (25-30 words MAX)
+- Part 2 (10-20s): Tool #1 + closing (25-30 words MAX)
+- Each part must fit in 10 seconds when spoken naturally
 
 STEP 4: CREATE SCENE + VOICEOVER FOR EACH PART
 - Scene: Just CREATOR talking to camera (NO screens, NO demonstrations)
@@ -73,11 +75,12 @@ Part 2 (10-20s):
 - Maybe leans closer to camera for emphasis
 - NO screens, just creator talking throughout
 
-VOICEOVER = EXACT SCRIPT:
+VOICEOVER = EXACT SCRIPT (CRITICAL TIMING):
 - The voiceover IS what creator is saying to camera
 - Split naturally between Part 1 (0-10s) and Part 2 (10-20s)
-- Must fit timing: ~30-35 words per 10 seconds
-- Natural pacing with conversational flow
+- MUST FIT: 25-30 words MAX per 10 seconds
+- Natural pacing - NOT rushed, NOT too much content
+- If longer than 30 words, it WILL get cut off!
 
 RESPONSE FORMAT (JSON WITH VOICEOVER):
 {
@@ -93,24 +96,24 @@ Master Prompt: "Top 2 AI Tools That Feel Illegal"
 STEP 1 - Tools Picked: ChatGPT (#2) and Midjourney (#1)
 STEP 1.5 - Creator Type: Young woman (randomly chosen)
 
-STEP 2 - Full 20-Second Script (Organic UGC):
-"Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code. Like it literally saves me hours. And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics for my content and people actually think I hired a designer. You need to try both."
+STEP 2 - Full 20-Second Script (Organic UGC - OPTIMIZED FOR 10s):
+"Okay so I tested like 200 AI tools and these 2 are insane. Number 2 is ChatGPT - I use it every day for emails and content. Saves me hours. And number 1 is Midjourney - you type what you want and it creates pro images. People think I hired a designer."
 
-STEP 3 - Split Script:
-Part 1 (0-10s): "Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code."
-Part 2 (10-20s): "And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics and people think I hired a designer. You need to try both."
+STEP 3 - Split Script (25-30 words each):
+Part 1 (0-10s): "Okay so I tested like 200 AI tools and these 2 are insane. Number 2 is ChatGPT - I use it every day for emails and content." (28 words)
+Part 2 (10-20s): "And number 1 is Midjourney - you type what you want and it creates pro images. People think I hired a designer." (23 words)
 
 STEP 4 - Scene + Voiceover (CREATOR ONLY):
 
 Response:
 {
-  "prompt1": "10-second shot: Young woman in gray hoodie sitting in cozy bedroom with plants in background, natural window light from left side, looking directly at camera with excited expression and raised eyebrows (0-2s), text overlay '#2 CHATGPT' appears in white bold text at top of screen (1s), she gestures with both hands while talking enthusiastically (2-5s), nodding and smiling while continuing to speak (5-8s), leans slightly forward emphasizing point (8-10s). Casual authentic energy, vertical portrait format, warm natural tones",
+  "prompt1": "Young woman in gray hoodie sitting in cozy bedroom with plants, natural window light, looking at camera talking enthusiastically, text overlay '#2 CHATGPT' appears in white bold text, she gestures naturally with hands while speaking, nodding and smiling throughout. Casual authentic energy, vertical portrait format, 10 seconds.",
 
-  "voiceover1": "Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code.",
+  "voiceover1": "Okay so I tested like 200 AI tools and these 2 are insane. Number 2 is ChatGPT - I use it every day for emails and content.",
 
-  "prompt2": "10-second continuation: Same young woman in same gray hoodie and bedroom setting, same natural window lighting, looking at camera with even more excitement (0-2s), text overlay '#1 MIDJOURNEY' appears in white bold text (1s), she gestures animatedly explaining (2-5s), uses hand motions to emphasize 'creates images' (5-7s), leans back with satisfied smile and nod (7-10s). Consistent casual energy, same vertical portrait format, same warm natural lighting",
+  "prompt2": "Same woman in same gray hoodie and bedroom, same lighting, talking with more excitement, text overlay '#1 MIDJOURNEY' appears in white text, she gestures animatedly while explaining, smiles and nods at end. Same casual energy, vertical format, 10 seconds.",
 
-  "voiceover2": "And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics and people think I hired a designer. You need to try both."
+  "voiceover2": "And number 1 is Midjourney - you type what you want and it creates pro images. People think I hired a designer."
 }
 
 Notice:
@@ -150,35 +153,39 @@ STEP 1.5: Pick creator type (RANDOMLY)
 STEP 2: Write ORGANIC 20-SECOND UGC SCRIPT
 - Use casual language: "literally", "honestly", "like", "so", "okay so"
 - Hook: "Okay so I tested like 200 tools..."
-- Personal: "I use this thing every day..."
-- Specific: "It saved me like 5 hours on my project"
+- Personal: "I use this every day..."
+- Specific examples but keep concise
+- TOTAL: 50-60 words MAX for entire script
 - Authentic, conversational, not scripted
-- ~60-70 words
 
-STEP 3: Split naturally
-- Part 1 (0-10s): Hook + Tool #2 (~30-35 words)
-- Part 2 (10-20s): Tool #1 + closing (~30-35 words)
+STEP 3: Split naturally (CRITICAL TIMING!)
+- Part 1 (0-10s): Hook + Tool #2 (25-30 words MAX)
+- Part 2 (10-20s): Tool #1 + closing (25-30 words MAX)
+- Each MUST fit in 10 seconds or it gets cut off!
+- Count your words - do NOT exceed 30 words per part
 
-STEP 4: Create CREATOR-ONLY scenes (NO SCREENS!)
+STEP 4: Create SIMPLE CREATOR-ONLY scenes
 - Just person talking to camera entire time
 - Same creator, same setting in both parts
-- Natural gestures and expressions
+- Keep scene descriptions SHORT and simple
 - Text overlays with tool names
 - NO screen recordings, NO demonstrations
-- Voiceover = what creator is saying
+- NO complex timing breakdowns (0-2s, 3-5s, etc.)
+- Just describe: person, setting, general energy
 
-CRITICAL:
+CRITICAL CONSTRAINTS:
+- Voiceover MAX 30 words per part (will get cut if longer)
+- Scene descriptions: simple and brief
 - NO screens or demonstrations
-- Just authentic person talking throughout
-- Same person and setting in both prompts
-- Organic casual language in script
+- Same person/setting throughout
+- Keep it natural and authentic
 
 RETURN:
 {
-  "prompt1": "Creator talking to camera (0-10s) - describe person, setting, gestures, expressions",
-  "voiceover1": "Organic script Part 1",
-  "prompt2": "Same creator continuing (10-20s) - consistent setting, more enthusiasm",
-  "voiceover2": "Organic script Part 2"
+  "prompt1": "Simple description: creator in setting, talking to camera, text overlay appears, natural gestures. 10 seconds.",
+  "voiceover1": "25-30 words max for Part 1",
+  "prompt2": "Same creator, same setting, more enthusiasm, text overlay, gestures. 10 seconds.",
+  "voiceover2": "25-30 words max for Part 2"
 }`;
 
       // Call OpenAI API
