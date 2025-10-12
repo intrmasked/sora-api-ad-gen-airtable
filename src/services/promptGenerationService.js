@@ -35,47 +35,49 @@ STEP 3: SPLIT INTO 2 PARTS (10 seconds each)
 - Part 2 (10-20s): Tool #1 + why it's #1
 
 STEP 4: CREATE SCENE + VOICEOVER FOR EACH PART
-- Scene: Visual description (person talking → shows screen → reaction)
+- Scene: Just CREATOR talking to camera (NO screens, NO demonstrations)
 - Voiceover: Exact words spoken during those 10 seconds
+- Same creator in both parts (consistency)
 
-UGC SCRIPT FORMAT (CRITICAL):
-- Hook (2-3s): "After testing 200+ AI tools..." or "I found 2 tools that changed everything..."
-- Personal experience: "I use this every day for..."
-- Specific examples: "It wrote my 10-page report in 2 minutes"
-- Authentic tone: Not salesy, like talking to a friend
-- Benefits focused: "Saved me hours" "10x my output"
+UGC SCRIPT FORMAT (ORGANIC & AUTHENTIC):
+- Hook (2-3s): "Okay so I tested like 200 AI tools..." or "These 2 tools literally changed everything..."
+- Personal, casual language: "literally", "honestly", "like"
+- Specific examples: "I used this for my whole project and..."
+- Conversational filler: "um", "so", "and yeah"
+- Authentic tone: Talking to friend, not scripted
+- Benefits focused but casual: "saved me SO much time"
 
-SORA COMPLIANCE (NO BRAND VIOLATIONS):
-- NO brand logos visible (no ChatGPT logo, Midjourney logo, etc.)
-- USE generic interfaces: "AI chat interface" not "ChatGPT interface"
-- USE generic devices: "smartphone" not "iPhone"
-- Tool names in TEXT OVERLAYS only (Sora can generate text)
-- Focus on action/concept, not branded UI
+CREATOR FORMAT (NO SCREENS - JUST PERSON):
+- Randomly choose: young woman OR young man
+- Casual clothing (hoodie, t-shirt, casual shirt)
+- Home/casual setting (bedroom, living room, coffee shop)
+- Natural lighting (window light, lamp, outdoor)
+- Talking directly to camera entire time
+- Natural gestures and expressions
+- Text overlay with tool name appears
 
-SCENE STRUCTURE FOR EACH 10-SECOND PART:
-1. Person talking to camera (0-3s)
-   - Casual setting, good lighting
-   - Authentic expression (excited, amazed)
-   - Text overlay appears with tool name
+EACH 10-SECOND SCENE (CREATOR ONLY):
+Part 1 (0-10s):
+- Creator talking to camera, casual setting
+- Text overlay '#2 [TOOL NAME]' appears at top
+- Creator uses hands to gesture while explaining
+- Natural expressions (excited, nodding, smiling)
+- NO screen recordings, NO demonstrations
+- Just authentic person talking
 
-2. Transition to screen (3s)
-   - Quick cut or zoom to device screen
-   - Hand visible holding phone/using laptop
-
-3. Screen demonstration (3-7s)
-   - Generic interface showing tool in action
-   - Visible results appearing on screen
-   - No brand logos, generic UI only
-
-4. Back to person or continue screen (7-10s)
-   - Quick reaction shot OR
-   - Final result on screen with wow moment
+Part 2 (10-20s):
+- SAME creator, SAME setting (consistency!)
+- Text overlay '#1 [TOOL NAME]' appears
+- Creator continues talking, more enthusiasm
+- Natural body language and gestures
+- Maybe leans closer to camera for emphasis
+- NO screens, just creator talking throughout
 
 VOICEOVER = EXACT SCRIPT:
-- The voiceover IS the script you wrote in Step 2
+- The voiceover IS what creator is saying to camera
 - Split naturally between Part 1 (0-10s) and Part 2 (10-20s)
 - Must fit timing: ~30-35 words per 10 seconds
-- Natural pacing, not rushed
+- Natural pacing with conversational flow
 
 RESPONSE FORMAT (JSON WITH VOICEOVER):
 {
@@ -85,38 +87,40 @@ RESPONSE FORMAT (JSON WITH VOICEOVER):
   "voiceover2": "Voiceover script explaining the tool (what AI thinks is worth mentioning)..."
 }
 
-EXAMPLE (UGC FORMAT - SCRIPT FIRST):
+EXAMPLE (UGC FORMAT - CREATOR ONLY, NO SCREENS):
 Master Prompt: "Top 2 AI Tools That Feel Illegal"
 
 STEP 1 - Tools Picked: ChatGPT (#2) and Midjourney (#1)
+STEP 1.5 - Creator Type: Young woman (randomly chosen)
 
-STEP 2 - Full 20-Second Script:
-"I tested over 200 AI tools and these 2 are absolutely insane. Number 2 is ChatGPT - I use it every single day to write my emails, scripts, even code in literally seconds. It's saved me hours. And number 1 is Midjourney - it creates professional images from just text. I've made hundreds of graphics and people think I hired a designer. Both are free to start."
+STEP 2 - Full 20-Second Script (Organic UGC):
+"Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code. Like it literally saves me hours. And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics for my content and people actually think I hired a designer. You need to try both."
 
 STEP 3 - Split Script:
-Part 1 (0-10s): "I tested over 200 AI tools and these 2 are absolutely insane. Number 2 is ChatGPT - I use it every single day to write my emails, scripts, even code in literally seconds."
-Part 2 (10-20s): "And number 1 is Midjourney - it creates professional images from just text. I've made hundreds of graphics and people think I hired a designer. Both are free to start."
+Part 1 (0-10s): "Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code."
+Part 2 (10-20s): "And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics and people think I hired a designer. You need to try both."
 
-STEP 4 - Scene + Voiceover:
+STEP 4 - Scene + Voiceover (CREATOR ONLY):
 
 Response:
 {
-  "prompt1": "10-second video: Young woman in casual hoodie sitting in bright modern room, looking at camera with excited expression (0-2s), text overlay '#2 CHATGPT' appears in bold (1s), she gestures enthusiastically while talking (2-3s), quick cut to smartphone screen in her hands (3s), shows generic AI chat interface with blue/purple gradient, text rapidly generating 'Subject: Project Update' email with full paragraphs appearing automatically (3-7s), her hand scrolls through perfectly written text (7-9s), cut back to her nodding impressed (9-10s). Natural window lighting, vertical format",
+  "prompt1": "10-second shot: Young woman in gray hoodie sitting in cozy bedroom with plants in background, natural window light from left side, looking directly at camera with excited expression and raised eyebrows (0-2s), text overlay '#2 CHATGPT' appears in white bold text at top of screen (1s), she gestures with both hands while talking enthusiastically (2-5s), nodding and smiling while continuing to speak (5-8s), leans slightly forward emphasizing point (8-10s). Casual authentic energy, vertical portrait format, warm natural tones",
 
-  "voiceover1": "I tested over 200 AI tools and these 2 are absolutely insane. Number 2 is ChatGPT - I use it every single day to write my emails, scripts, even code in literally seconds.",
+  "voiceover1": "Okay so I literally tested like 200 AI tools and these 2 are honestly insane. Number 2 is ChatGPT - I use this thing every single day to write my emails, content, even code.",
 
-  "prompt2": "10-second video: Same woman in same room, now looking amazed at camera (0-2s), text overlay '#1 MIDJOURNEY' appears (1s), she leans forward excitedly (2-3s), quick transition to laptop screen (3s), shows generic AI image generator with dark interface, text prompt 'mountain landscape sunset' being typed (3-5s), stunning photorealistic image materializing on screen from top to bottom (5-8s), her hand points at screen, camera shows her wide-eyed reaction (8-10s). Same lighting, same setting, consistent energy",
+  "prompt2": "10-second continuation: Same young woman in same gray hoodie and bedroom setting, same natural window lighting, looking at camera with even more excitement (0-2s), text overlay '#1 MIDJOURNEY' appears in white bold text (1s), she gestures animatedly explaining (2-5s), uses hand motions to emphasize 'creates images' (5-7s), leans back with satisfied smile and nod (7-10s). Consistent casual energy, same vertical portrait format, same warm natural lighting",
 
-  "voiceover2": "And number 1 is Midjourney - it creates professional images from just text. I've made hundreds of graphics and people think I hired a designer. Both are free to start."
+  "voiceover2": "And then number 1 is Midjourney - so you just type what you want and it creates professional images. I've made so many graphics and people think I hired a designer. You need to try both."
 }
 
 Notice:
-- Script written FIRST, then split
+- NO screen recordings, just creator talking entire time
+- Same creator, same setting, consistent throughout
+- Organic language: "literally", "honestly", "like", "so"
+- Natural gestures and expressions described
+- Voiceover matches what creator is saying on camera
 - Specific tools identified (ChatGPT, Midjourney)
-- UGC tone: "I tested...", "I use it every day..."
-- Voiceover is the exact script, split into 10s chunks
-- Scenes match what's being said
-- NO brand logos, generic interfaces only`;
+- Text overlays only mention for tool names`;
   }
 
   /**
@@ -134,42 +138,52 @@ Notice:
     try {
       // Add aspect ratio guidance to the user message
       const aspectRatioGuidance = this.getAspectRatioGuidance(aspectRatio);
-      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nFOLLOW THIS PROCESS (SCRIPT-FIRST APPROACH):\n\nSTEP 1: Pick 2 SPECIFIC REAL TOOLS from this category
-- Be specific: ChatGPT, Midjourney, Notion, etc. (actual product names)
-- Tool #2 and Tool #1 (save the best for last)
+      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nFOLLOW THIS PROCESS (UGC CREATOR-ONLY FORMAT):\n\nSTEP 1: Pick 2 SPECIFIC REAL TOOLS
+- Be specific: ChatGPT, Midjourney, Notion, etc.
+- Tool #2 and Tool #1 (best for last)
 
-STEP 2: Write FULL 20-SECOND UGC SCRIPT (what you'd actually say)
-- Start with hook: "I tested 200+ tools..." or similar
-- Natural first-person: "I use this every day..."
-- Specific examples: "It wrote my report in 2 minutes"
-- Authentic, not salesy
-- ~60-70 words total
+STEP 1.5: Pick creator type (RANDOMLY)
+- Young woman OR young man (choose one)
+- Casual clothing, home setting
+- Natural lighting
 
-STEP 3: Split script into 2 parts
+STEP 2: Write ORGANIC 20-SECOND UGC SCRIPT
+- Use casual language: "literally", "honestly", "like", "so", "okay so"
+- Hook: "Okay so I tested like 200 tools..."
+- Personal: "I use this thing every day..."
+- Specific: "It saved me like 5 hours on my project"
+- Authentic, conversational, not scripted
+- ~60-70 words
+
+STEP 3: Split naturally
 - Part 1 (0-10s): Hook + Tool #2 (~30-35 words)
 - Part 2 (10-20s): Tool #1 + closing (~30-35 words)
 
-STEP 4: Create scene + voiceover for each part
-- Scene describes person → screen → reaction
-- Voiceover is the exact script from Step 3
-- Scenes match what's being said
+STEP 4: Create CREATOR-ONLY scenes (NO SCREENS!)
+- Just person talking to camera entire time
+- Same creator, same setting in both parts
+- Natural gestures and expressions
+- Text overlays with tool names
+- NO screen recordings, NO demonstrations
+- Voiceover = what creator is saying
 
-SORA COMPLIANCE:
-- NO brand logos (generic interfaces only)
-- Tool names in TEXT OVERLAYS
-- Generic devices (smartphone, laptop)
+CRITICAL:
+- NO screens or demonstrations
+- Just authentic person talking throughout
+- Same person and setting in both prompts
+- Organic casual language in script
 
-RETURN FORMAT:
+RETURN:
 {
-  "prompt1": "Scene description for Part 1 (person → screen → reaction)",
-  "voiceover1": "Exact script for Part 1 (0-10s)",
-  "prompt2": "Scene description for Part 2 (person → screen → reaction)",
-  "voiceover2": "Exact script for Part 2 (10-20s)"
+  "prompt1": "Creator talking to camera (0-10s) - describe person, setting, gestures, expressions",
+  "voiceover1": "Organic script Part 1",
+  "prompt2": "Same creator continuing (10-20s) - consistent setting, more enthusiasm",
+  "voiceover2": "Organic script Part 2"
 }`;
 
       // Call OpenAI API
       const response = await this.openai.chat.completions.create({
-        model: 'gpt-4-turbo', // Using GPT-4 Turbo (latest available model)
+        model: 'gpt-4o-mini', // Fast and cost-effective for UGC script generation
         messages: [
           {
             role: 'system',
@@ -180,8 +194,8 @@ RETURN FORMAT:
             content: userMessage,
           },
         ],
-        temperature: 0.8, // Higher creativity for specific tool/app suggestions
-        max_tokens: 1500, // More tokens for detailed TikTok-style prompts
+        temperature: 0.9, // High creativity for organic, natural scripts
+        max_tokens: 1200, // Sufficient for creator-only prompts (no screen descriptions)
         response_format: { type: 'json_object' }, // Force JSON response
       });
 
