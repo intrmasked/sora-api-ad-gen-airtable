@@ -11,21 +11,21 @@ services:
       - key: PORT
         value: 3000
       - key: PUBLIC_URL
-        value: http://localhost:3000
+        sync: false # Set this in Render dashboard
       - key: SORA_API_KEY
-        value: d9193249e8c942a1920913766e412d15
+        sync: false # Set this in Render dashboard
       - key: SORA_API_BASE_URL
         value: https://api.kie.ai/api/v1
       - key: AIRTABLE_API_KEY
-        value: patLOBZXzm4w1WU8A.943dbcea35dfa2a87bce9a059962b2dc3e14b1a7d43c4411be7f75243dadfb6f
+        sync: false # Set this in Render dashboard
       - key: AIRTABLE_BASE_ID
-        value: app2Xf161LbrguqfD/tblv6tvGLHjWYVgaj
+        sync: false # Set this in Render dashboard
       - key: AIRTABLE_TABLE_NAME
         value: Video Generation
       - key: UPSTASH_REDIS_REST_URL
-        value: https://square-katydid-20385.upstash.io
+        sync: false # Set this in Render dashboard
       - key: UPSTASH_REDIS_REST_TOKEN
-        value: AU-hAAIncDIwNTI5YzFjMzgxMWI0ODU3YWY1YWM0ZTA5ZmI1YjdmMnAyMjAzODU
+        sync: false # Set this in Render dashboard
       - key: JOB_TIMEOUT
         value: 600000
     autoDeploy: true

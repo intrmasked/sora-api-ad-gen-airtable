@@ -113,18 +113,18 @@ PORT=3000
 NODE_ENV=development
 PUBLIC_URL=http://localhost:3000
 
-# Sora API (you already have this)
-SORA_API_KEY=d9193249e8c942a1920913766e412d15
+# Sora API
+SORA_API_KEY=your_sora_api_key_here
 SORA_API_BASE_URL=https://api.kie.ai/api/v1
 
 # Airtable Configuration
-AIRTABLE_API_KEY=your_airtable_api_key
-AIRTABLE_BASE_ID=appXXXXXXXXXXXXXX
-AIRTABLE_TABLE_NAME=Table 1
+AIRTABLE_API_KEY=your_airtable_api_key_here
+AIRTABLE_BASE_ID=your_base_id/your_table_id
+AIRTABLE_TABLE_NAME=Video Generation
 
-# Upstash Redis (from step 2)
-UPSTASH_REDIS_REST_URL=https://your-db.upstash.io
-UPSTASH_REDIS_REST_TOKEN=AXXXxxxxxxxxxxxxx
+# Upstash Redis
+UPSTASH_REDIS_REST_URL=your_upstash_redis_url_here
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token_here
 
 # Job Configuration
 JOB_TIMEOUT=600000
