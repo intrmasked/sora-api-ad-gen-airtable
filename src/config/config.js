@@ -25,6 +25,9 @@ module.exports = {
     token: process.env.UPSTASH_REDIS_REST_TOKEN,
   },
 
+  // OpenAI config
+  openaiApiKey: process.env.OPENAI_API_KEY,
+
   // Video config
   video: {
     tempDir: './temp',

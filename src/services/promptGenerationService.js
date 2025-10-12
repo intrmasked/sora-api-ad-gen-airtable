@@ -1,282 +1,153 @@
+const OpenAI = require('openai');
 const Logger = require('../utils/logger');
+const config = require('../config/config');
 
 /**
- * Service for generating Prompt 1 and Prompt 2 from a Master Prompt
- * Uses structured prompt engineering to ensure visual consistency
+ * Service for generating Prompt 1 and Prompt 2 from a Master Prompt using OpenAI
+ * Optimized for list-based viral content with visual consistency
  */
 class PromptGenerationService {
+  constructor() {
+    // Initialize OpenAI client
+    this.openai = new OpenAI({
+      apiKey: config.openaiApiKey || process.env.OPENAI_API_KEY,
+    });
+
+    // System prompt for generating visually consistent prompts
+    this.systemPrompt = `You are an expert AI prompt engineer specializing in generating prompts for Sora video generation.
+
+Your task is to take a MASTER PROMPT (usually a list-based concept like "Top 3 AI Tools" or "5 Best Apps") and generate TWO separate video prompts (Prompt 1 and Prompt 2) that will be stitched together.
+
+CRITICAL REQUIREMENTS:
+
+1. VISUAL CONSISTENCY:
+   - Both prompts MUST share the same visual style, lighting, color palette, and camera angles
+   - Use consistent cinematic techniques (depth of field, color grading, composition)
+   - Maintain the same tone and atmosphere throughout
+
+2. LIST-BASED CONTENT STRUCTURE:
+   - Each prompt describes a SELF-CONTAINED scene (one item from the list)
+   - Prompt 1 = First item in the list (e.g., #3 or #2)
+   - Prompt 2 = Second item in the list (e.g., #2 or #1)
+   - Scenes are connected THEMATICALLY, not through visual transitions
+   - Each scene can stand alone but feels part of the same series
+
+3. PROMPT STRUCTURE:
+   Each prompt should include:
+   - Main subject/focus (the specific item being showcased)
+   - Visual style (cinematic, tech-forward, mysterious, etc.)
+   - Camera work (wide shot, close-up, tracking, etc.)
+   - Lighting and atmosphere
+   - Color palette and mood
+   - Specific details that make it visually rich
+   - Technical quality indicators (4K, professional color grading, etc.)
+
+4. TONE ADAPTATION:
+   - Tech/AI content: Sleek, futuristic, neon accents, holographic elements
+   - Mystery/Creepy: Dark, moody, dramatic shadows, unsettling atmosphere
+   - Inspirational: Bright, epic, dramatic lighting, optimistic
+   - Humor/Wild: Vibrant, slightly surreal, dynamic, bold colors
+
+5. AVOID:
+   - Do NOT create visual transitions or continuity between scenes
+   - Do NOT reference previous or next items
+   - Do NOT use phrases like "continuing from" or "building on"
+   - Keep each scene independent but stylistically identical
+
+RESPONSE FORMAT:
+You must respond with a valid JSON object in this exact format:
+{
+  "prompt1": "Detailed first video prompt here...",
+  "prompt2": "Detailed second video prompt here..."
+}
+
+EXAMPLE:
+Master Prompt: "Top 3 AI Tools That Feel Illegal"
+
+Response:
+{
+  "prompt1": "Modern tech workspace with glowing holographic interface displaying AI-powered automation tool, sleek futuristic aesthetic with neon blue and purple accents, dramatic cinematic lighting with strong rim lights, wide-angle shot with shallow depth of field, floating data particles and subtle lens flares, professional color grading with teal and orange tones, mysterious high-tech ambiance, 4K quality",
+  "prompt2": "Futuristic device screen showcasing advanced AI voice cloning application, identical sleek aesthetic with neon blue and purple interface elements, same dramatic cinematic lighting setup, wide-angle composition with consistent depth of field, floating holographic waveforms and data streams, matching professional color grading, mysterious cutting-edge atmosphere, 4K quality"
+}
+
+Notice: Both prompts share lighting, colors, camera work, and mood while describing different specific tools.`;
+  }
+
   /**
-   * Generate two prompts from a master prompt
+   * Generate two prompts from a master prompt using OpenAI
    * @param {string} masterPrompt - The master concept/theme
    * @param {string} aspectRatio - Video aspect ratio (landscape/portrait/square)
    * @returns {Promise<{prompt1: string, prompt2: string}>}
    */
   async generatePrompts(masterPrompt, aspectRatio = 'landscape') {
-    Logger.info('Generating prompts from master prompt', { masterPrompt, aspectRatio });
-
-    // Parse the master prompt to understand the structure
-    const structure = this.analyzeMasterPrompt(masterPrompt);
-
-    // Generate two prompts based on the structure
-    const { prompt1, prompt2 } = this.createPrompts(structure, aspectRatio);
-
-    Logger.info('Prompts generated successfully', { prompt1, prompt2 });
-
-    return { prompt1, prompt2 };
-  }
-
-  /**
-   * Analyze the master prompt to extract key elements
-   */
-  analyzeMasterPrompt(masterPrompt) {
-    // Extract list type (e.g., "Top 3", "5 Best", "10 Amazing")
-    const listMatch = masterPrompt.match(/(?:top|best|amazing|weirdest|creepiest)\s+(\d+)/i);
-    const listCount = listMatch ? parseInt(listMatch[1]) : 2;
-
-    // Extract topic/theme
-    const topic = this.extractTopic(masterPrompt);
-
-    // Extract tone/style
-    const tone = this.extractTone(masterPrompt);
-
-    // Determine visual style
-    const visualStyle = this.determineVisualStyle(masterPrompt, tone);
-
-    return {
-      listCount,
-      topic,
-      tone,
-      visualStyle,
-      originalPrompt: masterPrompt,
-    };
-  }
-
-  /**
-   * Extract the main topic from the master prompt
-   */
-  extractTopic(prompt) {
-    // Common patterns: "AI tools", "apps", "predictions", etc.
-    const topicPatterns = [
-      /(?:ai\s+)?tools?/i,
-      /apps?/i,
-      /predictions?/i,
-      /glitches?/i,
-      /inventions?/i,
-      /moments?/i,
-      /videos?/i,
-      /things?/i,
-    ];
-
-    for (const pattern of topicPatterns) {
-      const match = prompt.match(pattern);
-      if (match) {
-        // Extract surrounding context
-        const startIndex = Math.max(0, match.index - 30);
-        const endIndex = Math.min(prompt.length, match.index + match[0].length + 30);
-        return prompt.substring(startIndex, endIndex).trim();
-      }
-    }
-
-    return prompt;
-  }
-
-  /**
-   * Extract the tone from the master prompt
-   */
-  extractTone(prompt) {
-    const toneKeywords = {
-      cinematic: ['cinematic', 'epic', 'dramatic', 'stunning'],
-      mystery: ['mysterious', 'creepy', 'weird', 'strange', 'unexplained'],
-      'tech-thriller': ['illegal', 'dangerous', 'powerful', 'insane'],
-      futuristic: ['future', 'ai', 'tech', 'innovation', 'advanced'],
-      'dark-humor': ['crazy', 'wild', 'insane', 'unbelievable'],
-    };
-
-    const lowerPrompt = prompt.toLowerCase();
-
-    for (const [tone, keywords] of Object.entries(toneKeywords)) {
-      if (keywords.some((keyword) => lowerPrompt.includes(keyword))) {
-        return tone;
-      }
-    }
-
-    return 'cinematic'; // Default
-  }
-
-  /**
-   * Determine visual style based on prompt and tone
-   */
-  determineVisualStyle(prompt, tone) {
-    const styles = {
-      cinematic: 'High-quality cinematic shot with dramatic lighting, professional color grading, shallow depth of field',
-      mystery: 'Dark, moody atmosphere with dramatic shadows, mysterious lighting, unsettling ambiance',
-      'tech-thriller': 'Sleek modern aesthetic, neon accents, tech-forward visuals, glowing interfaces',
-      futuristic: 'Clean futuristic design, holographic elements, advanced technology, bright modern lighting',
-      'dark-humor': 'Vibrant, slightly surreal visuals, bold colors, dynamic composition',
-    };
-
-    return styles[tone] || styles.cinematic;
-  }
-
-  /**
-   * Create two prompts that maintain visual consistency
-   */
-  createPrompts(structure, aspectRatio) {
-    const { topic, tone, visualStyle, originalPrompt } = structure;
-
-    // Create a visual consistency template
-    const visualTemplate = this.createVisualTemplate(visualStyle, aspectRatio);
-
-    // Generate Prompt 1 - First item in the list (e.g., #3 or #2)
-    const prompt1 = this.buildPrompt({
-      ...structure,
-      visualTemplate,
-      position: 'first',
-      description: `First scene introducing ${topic}`,
+    Logger.info('Generating prompts from master prompt using OpenAI', {
+      masterPrompt,
+      aspectRatio,
     });
 
-    // Generate Prompt 2 - Second item in the list (e.g., #2 or #1)
-    const prompt2 = this.buildPrompt({
-      ...structure,
-      visualTemplate,
-      position: 'second',
-      description: `Second scene continuing ${topic}`,
-    });
+    try {
+      // Add aspect ratio guidance to the user message
+      const aspectRatioGuidance = this.getAspectRatioGuidance(aspectRatio);
+      const userMessage = `Master Prompt: "${masterPrompt}"\n\n${aspectRatioGuidance}\n\nGenerate Prompt 1 and Prompt 2 with perfect visual consistency.`;
 
-    return { prompt1, prompt2 };
-  }
+      // Call OpenAI API
+      const response = await this.openai.chat.completions.create({
+        model: 'gpt-4-turbo', // Using GPT-4 Turbo (latest available model)
+        messages: [
+          {
+            role: 'system',
+            content: this.systemPrompt,
+          },
+          {
+            role: 'user',
+            content: userMessage,
+          },
+        ],
+        temperature: 0.7, // Balanced creativity
+        max_tokens: 1000,
+        response_format: { type: 'json_object' }, // Force JSON response
+      });
 
-  /**
-   * Create a visual template to ensure consistency
-   */
-  createVisualTemplate(visualStyle, aspectRatio) {
-    const cameraAngles = {
-      landscape: 'wide cinematic framing',
-      portrait: 'vertical framing optimized for mobile',
-      square: 'centered square composition',
-    };
+      // Parse the response
+      const content = response.choices[0].message.content;
+      const parsedResponse = JSON.parse(content);
 
-    return {
-      baseStyle: visualStyle,
-      cameraAngle: cameraAngles[aspectRatio] || cameraAngles.landscape,
-      lighting: 'consistent professional lighting throughout',
-      colorPalette: 'cohesive color scheme',
-    };
-  }
-
-  /**
-   * Build a complete prompt with all elements
-   */
-  buildPrompt({ topic, tone, visualTemplate, position, originalPrompt }) {
-    // Extract key elements from original prompt
-    const elements = this.extractKeyElements(originalPrompt);
-
-    // Build structured prompt parts
-    const parts = [];
-
-    // Subject/Main Focus
-    parts.push(this.generateSubject(elements, position));
-
-    // Visual Style
-    parts.push(visualTemplate.baseStyle);
-
-    // Camera & Composition
-    parts.push(visualTemplate.cameraAngle);
-
-    // Specific Details
-    parts.push(this.generateDetails(elements, position, tone));
-
-    // Mood & Atmosphere
-    parts.push(this.generateMood(tone));
-
-    // Combine into final prompt
-    return parts.filter(Boolean).join(', ');
-  }
-
-  /**
-   * Extract key elements from the original prompt
-   */
-  extractKeyElements(prompt) {
-    return {
-      hasBranding: /cracked\.ai|cracked ai/i.test(prompt),
-      hasTools: /tools?|apps?/i.test(prompt),
-      hasPredictions: /prediction|future/i.test(prompt),
-      hasGlitch: /glitch|bug|error/i.test(prompt),
-      hasPerson: /creator|person|human/i.test(prompt),
-      isListBased: /top|best|\d+/i.test(prompt),
-    };
-  }
-
-  /**
-   * Generate the main subject for each prompt
-   */
-  generateSubject(elements, position) {
-    if (elements.hasTools) {
-      return position === 'first'
-        ? 'Modern tech workspace with glowing holographic interface displaying AI tool dashboard'
-        : 'Sleek futuristic device screen showing advanced AI application interface';
-    }
-
-    if (elements.hasPredictions) {
-      return position === 'first'
-        ? 'Futuristic data visualization with floating holographic predictions'
-        : 'Advanced analytics display showing AI-generated future scenarios';
-    }
-
-    if (elements.hasGlitch) {
-      return position === 'first'
-        ? 'Digital screen with glitching AI interface and corrupted data streams'
-        : 'Technological malfunction visualization with cascading digital artifacts';
-    }
-
-    // Default tech-focused subject
-    return position === 'first'
-      ? 'High-tech environment showcasing cutting-edge AI technology'
-      : 'Advanced digital interface displaying innovative AI capabilities';
-  }
-
-  /**
-   * Generate specific details for visual richness
-   */
-  generateDetails(elements, position, tone) {
-    const details = [];
-
-    // Add tech elements
-    details.push('floating particles of data');
-    details.push('subtle lens flares');
-
-    // Add branding if present
-    if (elements.hasBranding) {
-      if (position === 'second') {
-        details.push('subtle "Cracked.ai" branding visible on screen');
+      if (!parsedResponse.prompt1 || !parsedResponse.prompt2) {
+        throw new Error('OpenAI response missing prompt1 or prompt2');
       }
-    }
 
-    // Add tone-specific details
-    if (tone === 'mystery') {
-      details.push('mysterious shadows');
-      details.push('atmospheric fog');
-    } else if (tone === 'tech-thriller') {
-      details.push('neon blue accents');
-      details.push('glowing circuit patterns');
-    }
+      Logger.info('Prompts generated successfully via OpenAI', {
+        prompt1Length: parsedResponse.prompt1.length,
+        prompt2Length: parsedResponse.prompt2.length,
+      });
 
-    return details.join(', ');
+      return {
+        prompt1: parsedResponse.prompt1,
+        prompt2: parsedResponse.prompt2,
+      };
+    } catch (error) {
+      Logger.error('Error generating prompts with OpenAI', error);
+      throw new Error(`Failed to generate prompts: ${error.message}`);
+    }
   }
 
   /**
-   * Generate mood and atmosphere
+   * Get aspect ratio specific guidance
    */
-  generateMood(tone) {
-    const moods = {
-      cinematic: 'epic and inspiring atmosphere, professional color grading, 4K quality',
-      mystery: 'dark and enigmatic mood, tension in the air, cinematic mystery',
-      'tech-thriller': 'intense high-tech ambiance, cutting-edge feel, futuristic energy',
-      futuristic: 'clean modern aesthetic, optimistic future vision, bright and advanced',
-      'dark-humor': 'slightly surreal atmosphere, vibrant energy, unexpected visual flair',
+  getAspectRatioGuidance(aspectRatio) {
+    const guidance = {
+      landscape:
+        'Use wide cinematic framing optimized for 16:9 landscape format. Think epic establishing shots.',
+      portrait:
+        'Use vertical framing optimized for 9:16 mobile/portrait format. Frame subjects centered for vertical viewing.',
+      square:
+        'Use centered square composition for 1:1 format. Balance the frame equally on all sides.',
     };
 
-    return moods[tone] || moods.cinematic;
+    return (
+      guidance[aspectRatio] ||
+      'Use wide cinematic framing optimized for landscape viewing.'
+    );
   }
 }
 
