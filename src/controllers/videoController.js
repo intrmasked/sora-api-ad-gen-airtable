@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('crypto');
 const soraService = require('../services/soraService');
 const redisService = require('../services/redisService');
 const jobProcessor = require('../services/jobProcessor');
+const promptGenerationService = require('../services/promptGenerationService');
 const config = require('../config/config');
 const Logger = require('../utils/logger');
 
@@ -248,6 +249,106 @@ class VideoController {
           'Failed',
           error.message
         );
+      }
+
+      return res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   * Generate Prompt 1 and Prompt 2 from a Master Prompt
+   * POST /api/generate-prompts
+   * Body: { masterPrompt, aspectRatio }
+   */
+  async generatePromptsFromMaster(req, res) {
+    const { masterPrompt, aspectRatio = 'landscape' } = req.body;
+
+    if (!masterPrompt) {
+      return res.status(400).json({
+        success: false,
+        error: 'masterPrompt is required',
+      });
+    }
+
+    try {
+      Logger.info('Generating prompts from master prompt', { masterPrompt, aspectRatio });
+
+      // Generate prompts using the prompt generation service
+      const { prompt1, prompt2 } = await promptGenerationService.generatePrompts(
+        masterPrompt,
+        aspectRatio
+      );
+
+      Logger.info('Prompts generated successfully', { prompt1, prompt2 });
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          masterPrompt,
+          prompt1,
+          prompt2,
+          aspectRatio,
+        },
+      });
+    } catch (error) {
+      Logger.error('Error generating prompts', error);
+      return res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   * Process Airtable record with Master Prompt
+   * Generates Prompt 1 & 2 from Master Prompt, then creates video
+   * POST /api/process-master-prompt
+   * Body: { recordId, masterPrompt, aspectRatio }
+   */
+  async processMasterPrompt(req, res) {
+    const { recordId, masterPrompt, aspectRatio = 'landscape' } = req.body;
+
+    if (!masterPrompt) {
+      return res.status(400).json({
+        success: false,
+        error: 'masterPrompt is required',
+      });
+    }
+
+    try {
+      Logger.info('Processing master prompt', { recordId, masterPrompt, aspectRatio });
+
+      // Generate Prompt 1 and Prompt 2 from Master Prompt
+      const { prompt1, prompt2 } = await promptGenerationService.generatePrompts(
+        masterPrompt,
+        aspectRatio
+      );
+
+      Logger.info('Prompts generated from master', { prompt1, prompt2 });
+
+      // Update Airtable record with generated prompts if recordId provided
+      if (recordId) {
+        const airtableService = require('../services/airtableService');
+        await airtableService.base(airtableService.tableName).update(recordId, {
+          'Prompt 1': prompt1,
+          'Prompt 2': prompt2,
+        });
+        Logger.info('Updated Airtable record with generated prompts', { recordId });
+      }
+
+      // Now use the generated prompts to create videos
+      req.body.prompt1 = prompt1;
+      req.body.prompt2 = prompt2;
+      return await this.generateAndStitch(req, res);
+    } catch (error) {
+      Logger.error('Error processing master prompt', error);
+
+      if (recordId) {
+        const airtableService = require('../services/airtableService');
+        await airtableService.updateRecordStatus(recordId, 'Failed', error.message);
       }
 
       return res.status(500).json({

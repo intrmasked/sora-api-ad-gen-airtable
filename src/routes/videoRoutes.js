@@ -22,6 +22,24 @@ router.post('/process-record', (req, res) =>
 );
 
 /**
+ * @route   POST /api/generate-prompts
+ * @desc    Generate Prompt 1 and Prompt 2 from a Master Prompt
+ * @access  Public
+ */
+router.post('/generate-prompts', (req, res) =>
+  videoController.generatePromptsFromMaster(req, res)
+);
+
+/**
+ * @route   POST /api/process-master-prompt
+ * @desc    Process Airtable record with Master Prompt (auto-generates Prompt 1 & 2)
+ * @access  Public
+ */
+router.post('/process-master-prompt', (req, res) =>
+  videoController.processMasterPrompt(req, res)
+);
+
+/**
  * @route   POST /api/callback/sora
  * @desc    Receive Sora API callbacks
  * @access  Public (called by Sora API)
