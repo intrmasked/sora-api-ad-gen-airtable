@@ -64,8 +64,7 @@ class AirtableService {
       const fileBuffer = await fs.readFile(videoPath);
       const filename = `stitched_${Date.now()}.mp4`;
 
-      // Upload to a temporary public URL first (using file.io as a free temporary host)
-      // Note: Airtable accepts URLs to upload attachments
+      // Upload to a temporary public URL - try multiple services for reliability
       const uploadUrl = await this.uploadToTempHost(fileBuffer, filename);
 
       // Update Airtable record with the attachment URL
@@ -90,38 +89,79 @@ class AirtableService {
   }
 
   /**
-   * Upload file to temporary public host
+   * Upload file to temporary public host with fallback options
    * @param {Buffer} fileBuffer - File buffer
    * @param {string} filename - Filename
    * @returns {Promise<string>} - Public URL
    */
   async uploadToTempHost(fileBuffer, filename) {
-    try {
-      Logger.info('Uploading to temporary host', { filename });
+    // Try multiple services in order of reliability
+    const services = [
+      {
+        name: '0x0.st',
+        upload: async () => {
+          const formData = new FormData();
+          formData.append('file', fileBuffer, { filename, contentType: 'video/mp4' });
+          const response = await axios.post('https://0x0.st', formData, {
+            headers: formData.getHeaders(),
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+          });
+          return response.data.trim(); // URL is in plain text
+        },
+      },
+      {
+        name: 'tmpfiles.org',
+        upload: async () => {
+          const formData = new FormData();
+          formData.append('file', fileBuffer, { filename, contentType: 'video/mp4' });
+          const response = await axios.post('https://tmpfiles.org/api/v1/upload', formData, {
+            headers: formData.getHeaders(),
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+          });
+          if (response.data.status === 'success') {
+            // tmpfiles returns URL in format: {"data":{"url":"https://tmpfiles.org/123/file.mp4"}}
+            return response.data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+          }
+          throw new Error('tmpfiles.org upload failed');
+        },
+      },
+      {
+        name: 'file.io',
+        upload: async () => {
+          const formData = new FormData();
+          formData.append('file', fileBuffer, { filename, contentType: 'video/mp4' });
+          const response = await axios.post('https://file.io', formData, {
+            headers: formData.getHeaders(),
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+          });
+          if (response.data.success) {
+            return response.data.link;
+          }
+          throw new Error('file.io upload failed');
+        },
+      },
+    ];
 
-      const formData = new FormData();
-      formData.append('file', fileBuffer, {
-        filename: filename,
-        contentType: 'video/mp4',
-      });
-
-      // Using file.io for temporary hosting (free, auto-deletes after download)
-      const response = await axios.post('https://file.io', formData, {
-        headers: formData.getHeaders(),
-      });
-
-      if (!response.data.success) {
-        throw new Error('Failed to upload to temporary host');
+    // Try each service until one succeeds
+    for (const service of services) {
+      try {
+        Logger.info(`Attempting upload to ${service.name}`, { filename });
+        const url = await service.upload();
+        Logger.info(`Successfully uploaded to ${service.name}`, { url });
+        return url;
+      } catch (error) {
+        Logger.warn(`Failed to upload to ${service.name}`, {
+          error: error.message,
+        });
+        // Continue to next service
       }
-
-      const publicUrl = response.data.link;
-      Logger.info('File uploaded to temporary host', { publicUrl });
-
-      return publicUrl;
-    } catch (error) {
-      Logger.error('Error uploading to temporary host', error);
-      throw error;
     }
+
+    // If all services fail
+    throw new Error('All temporary hosting services failed');
   }
 
   /**
