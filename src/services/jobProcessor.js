@@ -59,11 +59,18 @@ class JobProcessor {
       const bothReady = await redisService.areBothVideosReady(jobId);
       if (bothReady) {
         Logger.info('Both videos ready, starting stitching', { jobId });
+
+        // Update status to Processing before stitching
+        await redisService.updateJob(jobId, { status: 'processing' });
+        if (job.recordId) {
+          await airtableService.updateRecordStatus(job.recordId, 'Processing');
+        }
+
         await this.processStitching(jobId);
       } else {
         Logger.info('Waiting for other video', { jobId, videoNumber });
         await redisService.updateJob(jobId, {
-          status: 'processing',
+          status: 'generating',
           [`video${videoNumber}Status`]: 'ready'
         });
       }
@@ -105,6 +112,7 @@ class JobProcessor {
       if (recordId) {
         Logger.info('Uploading to Airtable', { jobId, recordId });
         await redisService.updateJob(jobId, { status: 'uploading' });
+        await airtableService.updateRecordStatus(recordId, 'Uploading');
 
         await airtableService.uploadVideoAttachment(
           recordId,

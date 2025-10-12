@@ -79,6 +79,12 @@ class VideoController {
         status: 'generating',
       });
 
+      // Update Airtable status to Generating
+      if (recordId) {
+        const airtableService = require('../services/airtableService');
+        await airtableService.updateRecordStatus(recordId, 'Generating');
+      }
+
       // Return immediately with job ID
       return res.status(202).json({
         success: true,
