@@ -27,10 +27,11 @@ class SoraService {
       });
 
       const requestBody = {
-        model: 'sora-2-text-to-video',
+        model: 'sora-2-pro-text-to-video',
         input: {
           prompt,
           aspect_ratio: aspectRatio,
+          n_frames: 15
         },
       };
 
