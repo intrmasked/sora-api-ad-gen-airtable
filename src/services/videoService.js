@@ -84,21 +84,32 @@ class VideoService {
     const outputPath = path.join(this.tempDir, outputFilename);
     const listFilePath = path.join(this.tempDir, `concat_${Date.now()}.txt`);
 
+    // Convert to absolute paths (declare outside try for cleanup access)
+    const absoluteVideo1 = path.resolve(video1Path);
+    const absoluteVideo2 = path.resolve(video2Path);
+    const absoluteListFile = path.resolve(listFilePath);
+
     try {
       Logger.info('Stitching videos with memory optimization', {
         video1Path,
         video2Path,
-        outputPath
+        outputPath,
+        absoluteListFile
       });
 
-      // Create concat list file for ffmpeg
-      const concatList = `file '${video1Path}'\nfile '${video2Path}'`;
-      await fs.writeFile(listFilePath, concatList);
+      // Create concat list file for ffmpeg (use absolute paths)
+      const concatList = `file '${absoluteVideo1}'\nfile '${absoluteVideo2}'`;
+      await fs.writeFile(absoluteListFile, concatList);
+
+      Logger.debug('Concat file created', {
+        listFilePath: absoluteListFile,
+        content: concatList
+      });
 
       return new Promise((resolve, reject) => {
         ffmpeg()
           // Use concat protocol (most memory-efficient)
-          .input(listFilePath)
+          .input(absoluteListFile)
           .inputOptions([
             '-f', 'concat',
             '-safe', '0'
@@ -123,13 +134,13 @@ class VideoService {
           .on('end', async () => {
             Logger.info('Videos stitched successfully', { outputPath });
             // Clean up concat list file
-            await fs.remove(listFilePath).catch(() => {});
+            await fs.remove(absoluteListFile).catch(() => {});
             resolve(outputPath);
           })
           .on('error', async (error) => {
             Logger.error('Error stitching videos', error);
             // Clean up on error
-            await fs.remove(listFilePath).catch(() => {});
+            await fs.remove(absoluteListFile).catch(() => {});
             await fs.remove(outputPath).catch(() => {});
             reject(new Error(`Failed to stitch videos: ${error.message}`));
           })
@@ -139,7 +150,7 @@ class VideoService {
     } catch (error) {
       Logger.error('Error in stitch operation', error);
       // Clean up on exception
-      await fs.remove(listFilePath).catch(() => {});
+      await fs.remove(absoluteListFile).catch(() => {});
       await fs.remove(outputPath).catch(() => {});
       throw error;
     }
