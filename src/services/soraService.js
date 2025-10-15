@@ -31,7 +31,9 @@ class SoraService {
         input: {
           prompt,
           aspect_ratio: aspectRatio,
-          n_frames: '15'
+          n_frames: '15',
+          size: "standard",
+          remove_watermark: true
         },
       };
 
