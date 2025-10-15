@@ -7,11 +7,19 @@ const Logger = require('../utils/logger');
 
 /**
  * Service for video download and stitching operations
+ * Optimized for Railway's memory constraints to prevent SIGKILL
  */
 class VideoService {
   constructor() {
     this.tempDir = config.video.tempDir;
     this.ensureTempDir();
+
+    // Concurrency control: Only allow 1 ffmpeg operation at a time
+    this.isProcessing = false;
+    this.queue = [];
+
+    // Railway free tier has ~512MB RAM, reserve margin
+    this.maxConcurrentJobs = 1;
   }
 
   /**
@@ -66,7 +74,7 @@ class VideoService {
   }
 
   /**
-   * Stitch two videos together
+   * Stitch two videos together with memory optimization
    * @param {string} video1Path - Path to first video
    * @param {string} video2Path - Path to second video
    * @param {string} outputFilename - Output filename
@@ -74,32 +82,65 @@ class VideoService {
    */
   async stitchVideos(video1Path, video2Path, outputFilename) {
     const outputPath = path.join(this.tempDir, outputFilename);
+    const listFilePath = path.join(this.tempDir, `concat_${Date.now()}.txt`);
 
     try {
-      Logger.info('Stitching videos', { video1Path, video2Path, outputPath });
+      Logger.info('Stitching videos with memory optimization', {
+        video1Path,
+        video2Path,
+        outputPath
+      });
+
+      // Create concat list file for ffmpeg
+      const concatList = `file '${video1Path}'\nfile '${video2Path}'`;
+      await fs.writeFile(listFilePath, concatList);
 
       return new Promise((resolve, reject) => {
         ffmpeg()
-          .input(video1Path)
-          .input(video2Path)
+          // Use concat protocol (most memory-efficient)
+          .input(listFilePath)
+          .inputOptions([
+            '-f', 'concat',
+            '-safe', '0'
+          ])
+          // Memory-optimized output options
+          .outputOptions([
+            '-c', 'copy',           // Copy codec (no re-encoding, saves RAM)
+            '-threads', '2',        // Limit CPU threads to prevent overload
+            '-max_muxing_queue_size', '1024',  // Limit buffer size
+            '-movflags', '+faststart'  // Optimize for streaming
+          ])
           .on('start', (commandLine) => {
-            Logger.debug('FFmpeg command', { commandLine });
+            Logger.debug('FFmpeg command (optimized)', { commandLine });
           })
           .on('progress', (progress) => {
-            Logger.debug('FFmpeg progress', { progress: progress.percent });
+            if (progress.percent) {
+              Logger.debug('FFmpeg progress', {
+                progress: Math.round(progress.percent) + '%'
+              });
+            }
           })
-          .on('end', () => {
+          .on('end', async () => {
             Logger.info('Videos stitched successfully', { outputPath });
+            // Clean up concat list file
+            await fs.remove(listFilePath).catch(() => {});
             resolve(outputPath);
           })
-          .on('error', (error) => {
+          .on('error', async (error) => {
             Logger.error('Error stitching videos', error);
+            // Clean up on error
+            await fs.remove(listFilePath).catch(() => {});
+            await fs.remove(outputPath).catch(() => {});
             reject(new Error(`Failed to stitch videos: ${error.message}`));
           })
-          .mergeToFile(outputPath, this.tempDir);
+          .output(outputPath)
+          .run();
       });
     } catch (error) {
       Logger.error('Error in stitch operation', error);
+      // Clean up on exception
+      await fs.remove(listFilePath).catch(() => {});
+      await fs.remove(outputPath).catch(() => {});
       throw error;
     }
   }
@@ -129,25 +170,104 @@ class VideoService {
   }
 
   /**
-   * Complete video processing workflow
+   * Concurrency control wrapper
+   * Ensures only one ffmpeg operation runs at a time to prevent memory exhaustion
+   */
+  async withConcurrencyControl(operation) {
+    // If already processing, queue this operation
+    if (this.isProcessing) {
+      Logger.warn('FFmpeg operation queued (preventing concurrent processing)');
+      return new Promise((resolve, reject) => {
+        this.queue.push({ operation, resolve, reject });
+      });
+    }
+
+    // Mark as processing and execute
+    this.isProcessing = true;
+    try {
+      const result = await operation();
+      return result;
+    } finally {
+      this.isProcessing = false;
+
+      // Process next item in queue
+      if (this.queue.length > 0) {
+        const { operation: nextOp, resolve, reject } = this.queue.shift();
+        this.withConcurrencyControl(nextOp).then(resolve).catch(reject);
+      }
+    }
+  }
+
+  /**
+   * Complete video processing workflow with memory optimization
    * @param {string} url1 - First video URL
    * @param {string} url2 - Second video URL
    * @returns {Promise<string>} - Path to stitched video
    */
   async processVideos(url1, url2) {
     const timestamp = Date.now();
-    const video1Path = await this.downloadVideo(url1, `video1_${timestamp}.mp4`);
-    const video2Path = await this.downloadVideo(url2, `video2_${timestamp}.mp4`);
-    const stitchedPath = await this.stitchVideos(
-      video1Path,
-      video2Path,
-      `stitched_${timestamp}.mp4`
-    );
+    let video1Path, video2Path, stitchedPath;
 
-    // Clean up individual videos, keep stitched video
-    await this.deleteFiles([video1Path, video2Path]);
+    try {
+      // Download videos (can be done in parallel safely)
+      Logger.info('Starting video processing workflow', { timestamp });
 
-    return stitchedPath;
+      [video1Path, video2Path] = await Promise.all([
+        this.downloadVideo(url1, `video1_${timestamp}.mp4`),
+        this.downloadVideo(url2, `video2_${timestamp}.mp4`)
+      ]);
+
+      Logger.info('Both videos downloaded, starting stitch with concurrency control');
+
+      // Stitch with concurrency control to prevent multiple ffmpeg instances
+      stitchedPath = await this.withConcurrencyControl(async () => {
+        return await this.stitchVideos(
+          video1Path,
+          video2Path,
+          `stitched_${timestamp}.mp4`
+        );
+      });
+
+      Logger.info('Stitching complete, cleaning up temp files');
+
+      // Clean up individual videos, keep stitched video
+      await this.deleteFiles([video1Path, video2Path]);
+
+      return stitchedPath;
+
+    } catch (error) {
+      Logger.error('Error in processVideos workflow', error);
+
+      // Clean up all files on error
+      const filesToClean = [video1Path, video2Path, stitchedPath].filter(Boolean);
+      await this.deleteFiles(filesToClean);
+
+      throw error;
+    }
+  }
+
+  /**
+   * Clean up old temporary files to prevent disk space issues
+   * Call this periodically or after processing
+   */
+  async cleanupOldFiles(maxAgeHours = 2) {
+    try {
+      const files = await fs.readdir(this.tempDir);
+      const now = Date.now();
+      const maxAge = maxAgeHours * 60 * 60 * 1000;
+
+      for (const file of files) {
+        const filePath = path.join(this.tempDir, file);
+        const stats = await fs.stat(filePath);
+
+        if (now - stats.mtimeMs > maxAge) {
+          await this.deleteFile(filePath);
+          Logger.info('Cleaned up old temp file', { file });
+        }
+      }
+    } catch (error) {
+      Logger.error('Error cleaning up old files', error);
+    }
   }
 }
 

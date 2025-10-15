@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const config = require('./config/config');
 const videoRoutes = require('./routes/videoRoutes');
+const videoService = require('./services/videoService');
 const Logger = require('./utils/logger');
 
 // Initialize Express app
@@ -60,6 +61,25 @@ app.listen(PORT, () => {
   Logger.info(`Server running on port ${PORT}`);
   Logger.info(`Environment: ${config.nodeEnv}`);
   Logger.info(`API endpoints available at http://localhost:${PORT}/api`);
+
+  // Start periodic cleanup of old temp files (every hour)
+  const cleanupInterval = 60 * 60 * 1000; // 1 hour
+  setInterval(async () => {
+    Logger.info('Running periodic temp file cleanup');
+    try {
+      await videoService.cleanupOldFiles(2); // Delete files older than 2 hours
+      Logger.info('Periodic cleanup completed');
+    } catch (error) {
+      Logger.error('Error during periodic cleanup', error);
+    }
+  }, cleanupInterval);
+
+  // Run cleanup on startup
+  videoService.cleanupOldFiles(2).catch((error) => {
+    Logger.error('Error during startup cleanup', error);
+  });
+
+  Logger.info('Periodic cleanup scheduler started (runs every hour)');
 });
 
 // Handle unhandled rejections
