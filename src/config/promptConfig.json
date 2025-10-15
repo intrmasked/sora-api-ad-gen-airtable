@@ -1,0 +1,236 @@
+{
+  "version": "1.0.0",
+  "purpose": "Generate viral, human UGC-style two-part Sora prompts + voiceovers with Cracked.ai as the climactic reveal.",
+  "CRITICAL_RULE": "Each segment is EXACTLY 10 seconds and MUST be self-contained. Part 1 (0-10s) is ONLY about Tool #2. Part 2 (10-20s) is ONLY about Cracked.ai. NO information bleeds between parts. These will be stitched together.",
+  "globals": {
+    "clip_max_seconds": 9.8,
+    "total_words_range": [50, 60],
+    "segment_words_range": [25, 30],
+    "camera_style": "handheld, iPhone front camera 0.9 zoom, natural micro-shake",
+    "lighting": "warm daylight or soft LED white",
+    "continuity": "same outfit, background, color temperature across both parts",
+    "overlay_text": {
+      "p1_first_2s_optional": ["{topic_style}"],
+      "p2_last_1s_required": [
+        "Cracked.ai — this changes everything",
+        "Cracked.ai — unreal",
+        "Cracked.ai — how is this real?"
+      ]
+    }
+  },
+  "lists": {
+    "topic_style": [
+      "3 AI Tools That Feel Illegal",
+      "5 Things I Wish I Knew About AI",
+      "This AI Tool Might Be Too Powerful",
+      "How I Automate My Workflow with AI",
+      "Wild AI Tools You Haven't Tried Yet",
+      "I Tested 10 AI Tools—These Won"
+    ],
+    "emotion_arc": [
+      "Curiosity → Awe",
+      "Frustration → Relief",
+      "Skeptical → Converted",
+      "Playful → Shocked",
+      "Calm → Mindblown"
+    ],
+    "hooks": [
+      "Okay wait—this shouldn't even exist…",
+      "How is nobody talking about this?",
+      "I swear this feels illegal to use.",
+      "This one AI tool broke my brain.",
+      "There's no way this is real.",
+      "I thought AI couldn't do this—until now.",
+      "If this isn't viral yet, it will be.",
+      "I tested 10 tools—only one scared me (in a good way)."
+    ],
+    "pain_points": [
+      "Everything sounded robotic and generic.",
+      "I was wasting hours planning content.",
+      "Most apps promised 'magic' and gave me drafts.",
+      "My videos took forever to script and edit.",
+      "Nothing actually captured my voice."
+    ],
+    "tool2": [
+      "HeyGen",
+      "Midjourney",
+      "Runway",
+      "Pika Labs",
+      "Claude",
+      "Notion AI"
+    ],
+    "benefit2_by_tool": {
+      "HeyGen": [
+        "cloned my voice perfectly in seconds",
+        "made a studio-quality avatar that talks like me"
+      ],
+      "Midjourney": [
+        "turned rough text into scroll-stopping visuals",
+        "generated brand-ready images faster than I can brief"
+      ],
+      "Runway": [
+        "turned ideas into cinematic b-roll instantly",
+        "made edits that would take me hours—auto"
+      ],
+      "Pika Labs": [
+        "animated my static designs into clean motion",
+        "spun up short videos from a single prompt"
+      ],
+      "Claude": [
+        "analyzed docs and wrote clear summaries like a pro",
+        "handled research with citations while keeping my tone"
+      ],
+      "Notion AI": [
+        "organized my mess into a clean plan",
+        "drafted pages that didn't sound like a robot"
+      ]
+    },
+    "benefit2_impact_by_tool": {
+      "HeyGen": [
+        "it saves me hours of recording",
+        "my audience can't even tell it's AI"
+      ],
+      "Midjourney": [
+        "I get pro-level visuals instantly",
+        "it's like having a designer on demand"
+      ],
+      "Runway": [
+        "my editing time went from hours to minutes",
+        "I create content 10x faster now"
+      ],
+      "Pika Labs": [
+        "static posts became viral videos",
+        "engagement doubled overnight"
+      ],
+      "Claude": [
+        "research that took days now takes seconds",
+        "it actually understands context"
+      ],
+      "Notion AI": [
+        "chaos became clarity instantly",
+        "my workflow is finally organized"
+      ]
+    },
+    "benefit1_cracked": [
+      "plans, writes, and edits like a full creative team",
+      "builds viral hooks, captions, and content calendars that sound human",
+      "turns rough ideas into platform-ready posts in one click",
+      "generates hooks, scripts, and thumbnails that actually perform",
+      "learns your brand voice and creates like you on autopilot",
+      "connects strategy to copy so everything feels cohesive"
+    ],
+    "reaction_phrases": [
+      "I'm not kidding.",
+      "It's actually scary.",
+      "This blew my mind.",
+      "I didn't think AI could do this.",
+      "You have to see it."
+    ],
+    "cta_lines": [
+      "Search Cracked.ai right now.",
+      "Go try Cracked.ai and tell me I'm wrong.",
+      "You'll get it the second you test Cracked.ai.",
+      "Cracked.ai—just try it once.",
+      "If you create content, you need Cracked.ai."
+    ],
+    "p1_settings_variants": [
+      "cozy desk, laptop open, plant in frame, soft shadows",
+      "sunlit bedroom studio, tripod visible, posters in background",
+      "coffee shop window seat, subtle crowd ambience",
+      "minimal studio corner, LED key light, warm bounce"
+    ],
+    "p2_visual_overlays": [
+      "Cracked.ai dashboard flashes with content calendar tiles",
+      "auto-generated hooks, captions, and thumbnail ideas scroll",
+      "side-by-side: rough idea → polished posts pipeline",
+      "animated KPI uptick and engagement preview cards"
+    ],
+    "creator_types": [
+      {
+        "type": "young woman",
+        "clothing": ["gray hoodie", "white t-shirt", "casual sweater", "black turtleneck"],
+        "settings": ["cozy bedroom", "home office", "living room corner", "minimalist desk"]
+      },
+      {
+        "type": "young man",
+        "clothing": ["navy hoodie", "plain white tee", "black crewneck", "casual button-up"],
+        "settings": ["modern desk setup", "apartment workspace", "studio corner", "home office"]
+      }
+    ]
+  },
+  "weights": {
+    "tool2": {
+      "HeyGen": 1,
+      "Midjourney": 1,
+      "Runway": 1,
+      "Pika Labs": 1,
+      "Claude": 1,
+      "Notion AI": 1
+    },
+    "topic_style_bias_for_tool2": {
+      "Midjourney": [
+        "Wild AI Tools You Haven't Tried Yet",
+        "This AI Tool Might Be Too Powerful"
+      ],
+      "Runway": ["How I Automate My Workflow with AI"],
+      "Claude": ["5 Things I Wish I Knew About AI"],
+      "HeyGen": ["3 AI Tools That Feel Illegal"]
+    }
+  },
+  "selection_rules": [
+    "Pick 1 {topic_style}, 1 {emotion_arc}, 1 {hook}, 1 {pain_point}.",
+    "Pick 1 {tool2}; map 1 {benefit2} from benefit2_by_tool[tool2].",
+    "{tool1} is always 'Cracked.ai'.",
+    "Pick 1 {benefit1_cracked}, 1 {reaction_phrase}, 1 {cta_line}.",
+    "Pick 1 {p1_settings_variants}, 1–2 {p2_visual_overlays} (join with comma).",
+    "Pick 1 {creator_types} randomly for Part 1."
+  ],
+  "templates": {
+    "voiceover1": "{hook} Number 2 is {tool2}—it literally {benefit2}. I use this daily and {benefit2_impact}.",
+    "voiceover2": "And number 1? Cracked.ai. It {benefit1}—this actually feels human. {reaction_phrase} {cta_line}",
+    "prompt1": "CRITICAL: This is a standalone 10-second video segment. First 2 seconds: {creator_type} in {creator_clothing} in {creator_setting} with natural window light, looking at camera with excited expression, text overlay '#2 {tool2_upper}' appears in white text. Seconds 2-10: Transition to {p1_placeholder_images}. Natural transitions between images throughout. ALL CONTENT about {tool2} must fit within this 10-second boundary. {aspect_ratio_format}. Duration: EXACTLY 10 seconds.",
+    "prompt2": "CRITICAL: This is a standalone 10-second video segment. All 10 seconds: {p2_placeholder_images}. Text overlay '#1 CRACKED.AI' appears prominently on images. Natural transitions between visuals. ALL CONTENT about Cracked.ai must fit within this 10-second boundary. {aspect_ratio_format}. End with on-screen text: '{p2_outro_text}'. Duration: EXACTLY 10 seconds."
+  },
+  "placeholder_images": {
+    "HeyGen": [
+      "hands typing on keyboard, recording studio setup, microphone close-up, audio waveforms, voice recording booth aesthetic, professional podcasting equipment",
+      "person speaking to camera, video recording setup, content creation workspace, ring light setup, modern streaming equipment"
+    ],
+    "Midjourney": [
+      "creative workspace, abstract colorful art pieces, digital artwork displays, creative tools and supplies, inspiration boards with images, artistic portfolio mockups",
+      "hands sketching, design tools spread out, color palette samples, mood boards with textures, creative brainstorming setup"
+    ],
+    "Runway": [
+      "video editing workspace, timeline sequences, cinematic footage previews, professional camera equipment, film production tools, creative video assets",
+      "hands adjusting camera, lighting setup, video production environment, motion graphics displays, dynamic video transitions"
+    ],
+    "Pika Labs": [
+      "animated graphics in motion, motion design workspace, video clips transitioning, dynamic visual effects, creative animation tools, moving graphic elements",
+      "digital animation frames, video transformation process, creative motion sequences, animated content displays"
+    ],
+    "Claude": [
+      "research documents spread out, organized notes, data analysis displays, clean workspace with papers, highlighted text and annotations, professional study environment",
+      "hands organizing documents, laptop with research tabs, note-taking setup, information synthesis workspace"
+    ],
+    "Notion AI": [
+      "organized digital workspace, clean project boards, task management displays, structured notes layout, productivity dashboard, planning calendar views",
+      "hands organizing tasks, digital planner interface, workflow diagrams, project planning setup, organized content structure"
+    ],
+    "Cracked.ai": [
+      "content strategy dashboard with calendar view, viral hook generators scrolling, AI-powered caption writing interface, brand voice customization panels, performance analytics graphs, content planning workspace",
+      "creative workflow automation, hands typing content briefs, social media post templates, engagement metrics rising, content library organized by platform, strategic planning interface"
+    ]
+  },
+  "postprocess": {
+    "word_targets": {
+      "total": [50, 60],
+      "segment": [25, 30]
+    },
+    "trim_policy": "truncate_by_sentence_until_range",
+    "punctuation_normalization": true,
+    "whitespace_collapse": true,
+    "duration_enforcement_seconds": 9.8,
+    "title_overlay_policy": "optional_in_p1_first_2s",
+    "outro_text_pick": "from globals.overlay_text.p2_last_1s_required randomly"
+  }
+}
