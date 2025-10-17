@@ -92,7 +92,7 @@ npm install
 
 ### 2. Set Up Upstash Redis (Free)
 
-Follow the detailed guide: **[UPSTASH_SETUP.md](UPSTASH_SETUP.md)**
+Follow the detailed guide: **[UPSTASH_SETUP.md](context/UPSTASH_SETUP.md)**
 
 Quick version:
 1. Go to [upstash.com](https://upstash.com) → Sign up (free, no credit card)
@@ -132,7 +132,7 @@ JOB_TIMEOUT=600000
 
 ### 4. Set Up Airtable
 
-Follow: **[AIRTABLE_SETUP.md](AIRTABLE_SETUP.md)**
+Follow: **[AIRTABLE_SETUP.md](context/AIRTABLE_SETUP.md)**
 
 Create table with fields:
 - `Prompt 1` (Long text)
@@ -292,11 +292,11 @@ Check if API is running.
 
 ### Option 1: Render.com (Recommended - Free)
 
-Full guide: **[DEPLOYMENT.md](DEPLOYMENT.md)**
+Full guide: **[DEPLOYMENT.md](context/DEPLOYMENT.md)**
 
 **Quick Deploy:**
 
-1. Create Upstash Redis database (see UPSTASH_SETUP.md)
+1. Create Upstash Redis database (see [UPSTASH_SETUP.md](context/UPSTASH_SETUP.md))
 
 2. Push to GitHub:
 ```bash
@@ -346,7 +346,7 @@ railway variables set SORA_API_KEY=your_key
 docker-compose up -d
 ```
 
-See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed instructions.
+See **[DEPLOYMENT.md](context/DEPLOYMENT.md)** for detailed instructions.
 
 ## Usage Examples
 
@@ -482,12 +482,17 @@ sora-api-ad-gen-airtable/
 ├── temp/                           # Temporary video files
 ├── .env.example                    # Environment template
 ├── package.json                    # Dependencies
+├── context/                        # Documentation files
+│   ├── UPSTASH_SETUP.md           # Redis setup guide
+│   ├── AIRTABLE_SETUP.md          # Airtable setup guide
+│   ├── DEPLOYMENT.md              # Deployment guide
+│   ├── CONTEXT.md                 # Project context for sessions
+│   ├── TODO.md                    # Migration tasks & roadmap
+│   ├── QUICK_START.md             # Quick start guide
+│   └── FFMPEG_OPTIMIZATION.md     # FFmpeg optimization details
 ├── render.yaml                     # Render deployment config
 ├── Dockerfile                      # Docker config
-├── README.md                       # This file
-├── UPSTASH_SETUP.md               # Redis setup guide
-├── AIRTABLE_SETUP.md              # Airtable setup guide
-└── DEPLOYMENT.md                   # Deployment guide
+└── README.md                       # This file
 ```
 
 ## Cost Breakdown (100% FREE!)
@@ -504,7 +509,7 @@ sora-api-ad-gen-airtable/
 
 ### "Redis not configured" Warning
 
-**Solution**: Set up Upstash Redis (see UPSTASH_SETUP.md)
+**Solution**: Set up Upstash Redis (see [UPSTASH_SETUP.md](context/UPSTASH_SETUP.md))
 
 ### Callbacks Not Working
 
@@ -618,4 +623,13 @@ MIT
 
 **Built with Node.js, Express, FFmpeg, Upstash Redis, and Airtable**
 
-**Ready to deploy!** Follow [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions.
+**Ready to deploy!** Follow [DEPLOYMENT.md](context/DEPLOYMENT.md) for step-by-step instructions.
+
+---
+
+## 📚 Additional Documentation
+
+- **[CONTEXT.md](context/CONTEXT.md)** - Comprehensive project context for development sessions
+- **[TODO.md](context/TODO.md)** - Migration roadmap (kie.ai → OpenAI official APIs)
+- **[QUICK_START.md](context/QUICK_START.md)** - Quick start guide
+- **[FFMPEG_OPTIMIZATION.md](context/FFMPEG_OPTIMIZATION.md)** - Memory optimization details
